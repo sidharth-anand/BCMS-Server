@@ -1,0 +1,17 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Start backend",
+            "type": "node",
+            "request": "launch",
+            "env": {
+                "NODE_ENV": "dev",
+                "DEBUG": "BCMS:*"
+            },
+            "program": "${workspaceFolder}\\bin\\www",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal"
+        },
+    ]
+}

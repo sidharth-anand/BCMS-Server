@@ -1,0 +1,25 @@
+{
+  "name": "BCMS",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node bin/www"
+  },
+  "dependencies": {
+    "bunyan": "^1.8.15",
+    "compression": "^1.7.4",
+    "cookie-parser": "1.4.5",
+    "debug": "2.6.9",
+    "ejs": "^3.1.6",
+    "express": "4.16.4",
+    "fs-extra": "9.0.1",
+    "http-errors": "1.6.3",
+    "module": "^1.2.5",
+    "morgan": "1.9.1",
+    "pg": "^8.5.1",
+    "rotating-file-stream": "^2.1.4"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  }
+}
