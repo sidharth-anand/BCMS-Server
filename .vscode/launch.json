@@ -9,7 +9,7 @@
                 "NODE_ENV": "dev",
                 "DEBUG": "BCMS:*"
             },
-            "program": "${workspaceFolder}\\bin\\www",
+            "program": "${workspaceFolder}/bin/www",
             "cwd": "${workspaceFolder}",
             "console": "integratedTerminal"
         },
