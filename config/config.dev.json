@@ -38,5 +38,9 @@
                 "level": "debug"
             }
         }
+    },
+    "authConfig": {
+        "tokenKey": "PandaSUXbalz",
+        "tokenAlgorithm": "RS256"
     }
 }
