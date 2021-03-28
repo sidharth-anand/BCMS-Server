@@ -1,6 +1,7 @@
 ﻿const express = require("express");
 const router = express.Router();
 const testService = require("../services/test.service");
+const authService = require("../services/auth.service");
 
 const appLogger = require("../logging/appLogger");
 
