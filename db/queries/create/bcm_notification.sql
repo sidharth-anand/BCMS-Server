@@ -6,13 +6,13 @@ CREATE TABLE IF NOT EXISTS bcms_notification(
 
 -- Setting the foreign keys
 -- uid with the bcms_user table
-ALTER TABLE notification
+ALTER TABLE bcms_notification
 ADD CONSTRAINT FK_notification_user
 FOREIGN KEY (uid)
 REFERENCES bcms_user(uid);
 
 -- pid with the bcms_post table
-ALTER TABLE notification
+ALTER TABLE bcms_notification
 ADD CONSTRAINT FK_notification_post
 FOREIGN KEY (pid)
 REFERENCES bcms_post(pid);
