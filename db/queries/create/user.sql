@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS bcms_user(
-    id SERIAL PRIMARY KEY,
+    uid SERIAL PRIMARY KEY,
     username VARCHAR(32) UNIQUE NOT NULL,
     display_name VARCHAR(64),
     email VARCHAR(64) UNIQUE NOT NULL,
