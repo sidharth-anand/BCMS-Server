@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS notification(
+CREATE TABLE IF NOT EXISTS bcms_notification(
     uid INTEGER,
     pid INTEGER,
     PRIMARY KEY (uid, pid)
