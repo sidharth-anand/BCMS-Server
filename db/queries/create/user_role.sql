@@ -1,4 +1,4 @@
-CREATE TABLE bcms_user_role(
+CREATE TABLE IF NOT EXISTS bcms_user_role(
     uid INTEGER,
     rid INTEGER,
     PRIMARY KEY(uid, rid)

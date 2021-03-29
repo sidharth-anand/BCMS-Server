@@ -1,4 +1,4 @@
-CREATE TABLE bcms_course (
+CREATE TABLE IF NOT EXISTS bcms_course (
     cid SERIAL PRIMARY KEY,
     name VARCHAR(64) NOT NULL,
     code VARCHAR(8) NOT NULL,

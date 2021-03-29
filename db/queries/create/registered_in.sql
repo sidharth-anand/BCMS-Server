@@ -1,4 +1,4 @@
-CREATE TABLE bcms_registered_in(
+CREATE TABLE IF NOT EXISTS bcms_registered_in(
     uid INTEGER,
     cid INTEGER,
     PRIMARY KEY(uid, cid)
