@@ -1,0 +1,17 @@
+CREATE TABLE bcms_user(
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(32) UNIQUE NOT NULL,
+    display_name VARCHAR(64),
+    email VARCHAR(64) UNIQUE NOT NULL,
+    phone_no VARCHAR(15),
+    password VARCHAR(64),
+    verified BOOLEAN,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- Creating the Trigger
+CREATE TRIGGER set_timestamp
+BEFORE UPDATE ON bcms_user
+FOR EACH ROW
+EXECUTE PROCEDURE trigger_set_timestamp();
