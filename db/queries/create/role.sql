@@ -1,0 +1,4 @@
+CREATE TABLE bcms_role(
+    rid SERIAL PRIMARY KEY,
+    label VARCHAR(64) UNIQUE NOT NULL
+);
