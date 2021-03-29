@@ -9,10 +9,10 @@ CREATE TABLE IF NOT EXISTS bcms_registered_in(
 ALTER TABLE bcms_registered_in
 ADD CONSTRAINT FK_registered_in_user
 FOREIGN KEY (uid)
-REFERENCES bcms_user(uid)
+REFERENCES bcms_user(uid);
 
 -- cid with bcms_course table
 ALTER TABLE bcms_registered_in
 ADD CONSTRAINT FK_registered_in_course
 FOREIGN KEY (cid)
-REFERENCES bcms_post(cid)
+REFERENCES bcms_post(cid);

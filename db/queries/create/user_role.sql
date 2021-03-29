@@ -9,10 +9,10 @@ CREATE TABLE IF NOT EXISTS bcms_user_role(
 ALTER TABLE bcms_user_role
 ADD CONSTRAINT FK_user_role_user
 FOREIGN KEY (uid)
-REFERENCES bcms_user(uid)
+REFERENCES bcms_user(uid);
 
 -- rid with bcms_role table
 ALTER TABLE bcms_user_role
 ADD CONSTRAINT FK_user_role_role
 FOREIGN KEY (rid)
-REFERENCES bcms_role(rid)
+REFERENCES bcms_role(rid);

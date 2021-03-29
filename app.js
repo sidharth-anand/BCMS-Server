@@ -38,9 +38,11 @@ initDB.init();
 
 const test = require("./routes/test.routes");
 const users = require("./routes/user.routes");
+const admin = require("./routes/admin.routes");
 
 app.use("/test", test);
 app.use("/users", users);
+app.use("/admin", admin);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
