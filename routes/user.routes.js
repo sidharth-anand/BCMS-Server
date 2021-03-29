@@ -33,3 +33,5 @@ router.get("user/:id/courses", authService.validate(),  (req, res, next) => {
         }
     });
 });
+
+module.exports = router;

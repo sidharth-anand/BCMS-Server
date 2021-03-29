@@ -1,4 +1,4 @@
-CREATE TABLE bcms_post (
+CREATE TABLE IF NOT EXISTS bcms_post (
     pid SERIAL PRIMARY KEY,
     title VARCHAR(64) NOT NULL,
     body TEXT,

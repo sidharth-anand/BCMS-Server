@@ -33,9 +33,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+const initDB = require('./db/init');
+initDB.init();
+
 const test = require("./routes/test.routes");
+const users = require("./routes/user.routes");
 
 app.use("/test", test);
+app.use("/users", users);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

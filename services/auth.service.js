@@ -14,13 +14,13 @@ async function register(user, callback) {
 
     const securePassword = await bcrypt.hash(user.password, 10);
 
-    await db.query("INSERT INTO user(username, password, email, name, phone) VALUES($1, $2, $3, $4, $5)", [user.username, securePassword, user.email, user.name, user.phone || null], callback);
+    await db.query("INSERT INTO bcms_user(username, password, email, name, phone) VALUES($1, $2, $3, $4, $5)", [user.username, securePassword, user.email, user.name, user.phone || null], callback);
     appLogger.info("Registered new user: " + user.username);
 }
 
 async function login(username, password, callback) {
     try {
-        const user = await db.query("SELECT * FROM user WHERE username = $1", [username])[0];
+        const user = await db.query("SELECT * FROM bcms_user WHERE username = $1", [username])[0];
 
         const role = await db.query("SELECT r.label FROM user_role AS ur, role AS r, WHERE ur.uid = $1 AND r.rid = ur.rid", [user.uid]);
 
@@ -45,8 +45,8 @@ async function login(username, password, callback) {
 }
 
 
-function verify(roles) {
-    return (req, res, next) => {
+function validate(roles) {
+    return function(req, res, next) {
         try {
             const token = req.headers['authorization'].split(' ')[1];
         } catch(err) {
@@ -54,7 +54,7 @@ function verify(roles) {
         }
 
         try{
-            payload = jwt.verify(accessToken, authConfig.tokenKey);
+            payload = jwt.verify(token, authConfig.tokenKey);
 
             if(!roles || roles.includes(payload.role)) {
                 next();
@@ -67,4 +67,10 @@ function verify(roles) {
         }
 
     }    
+}
+
+module.exports = {
+    login,
+    register,
+    validate
 }
