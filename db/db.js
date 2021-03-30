@@ -38,12 +38,23 @@ async function query(text, params, callback) {
 };
 
 async function processFile(filename, params, callback) {
-    fs.readFile(filename, "utf8", (err, data) => {
-        if(!err) {
-            debug("processed file: " + filename);
-            query(data, params, callback);
-        }
+    return new Promise(resolve => {
+        fs.readFile(filename, "utf8", (err, data) => {
+            if(!err) {
+                debug("processed file: " + filename);
+                query(data, params, resolve);
+            } else {
+                debug("Error processing file: " + filename + ". Skipping file...");
+                resolve();
+            }
+        });
     });
+}
+
+async function processFileSequence(filenames) {
+    for(let i = 0; i < filenames.length; i++) {
+        await processFile(filenames[i], []);
+    }
 }
 
 async function getClient(callback) {
@@ -76,5 +87,6 @@ async function getClient(callback) {
 module.exports = {
     query,
     processFile,
+    processFileSequence,
     getClient,
 }
