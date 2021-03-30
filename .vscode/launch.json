@@ -13,5 +13,12 @@
             "cwd": "${workspaceFolder}",
             "console": "integratedTerminal"
         },
+        {
+            "name": "View Documentation",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceFolder}/node_modules/swagger-ui-watcher/bin/swagger-ui-watcher.js",
+            "args": ["swagger.json"]
+        }
     ]
 }
