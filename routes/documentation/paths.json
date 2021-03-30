@@ -1,0 +1,13 @@
+{
+    "/users": {
+        "$ref": "users/users.json"
+    },
+
+    "/users/{id}": {
+        "$ref": "users/user-id.json"
+    },
+
+    "/users/{id}/courses": {
+        "$ref": "users/user-courses.json"
+    }
+}

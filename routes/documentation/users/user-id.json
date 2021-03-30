@@ -1,0 +1,32 @@
+{
+    "get": {
+        "summary": "Get a single user",
+        "description": "Returns user info, role of a single user identified by the id in the route",
+        "tags": ["Users"],
+        "parameters": [
+            {
+                "name": "id",
+                "in": "path",
+                "description": "uid of user",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "User info along with role",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "$ref": "../../../db/schemas/user.schema.json"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "title": "BCMS Server",
+    "description": "BCMS - The Better CMS is an online course management system aimed at simplifying the everyday workflow of thousands of students and teachers",
+    "version": "0.1.0",
+    "contact": {
+        "name": "Sidharth Anand",
+        "email": "sidharthanand85@gmail.com"
+    },
+    "license": {
+        "name": "GPLv3",
+        "url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+    }
+}

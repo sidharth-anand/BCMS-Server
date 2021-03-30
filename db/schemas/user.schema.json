@@ -1,0 +1,40 @@
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer",
+            "description": "A unique user id",
+            "example": "0"
+        },
+        "username": {
+            "type": "string",
+            "description": "The unique username the user chooses",
+            "example": "sidharth"
+        },
+        "display_name": {
+            "type": "string",
+            "description": "The user's full name",
+            "example": "Sidharth Anand"
+        },
+        "email": {
+            "type": "string",
+            "description": "The user's email id (unique)",
+            "example": "asd@asd.com"
+        },
+        "phone_no": {
+            "type": "string",
+            "description": "The user's phone number",
+            "example": "1235467890"
+        },
+        "verified": {
+            "type": "boolean",
+            "description": "Indicates whether is the user's email is verified",
+            "example": true
+        },
+        "role": {
+            "type": "string",
+            "description": "A string label indicating the user's access rights",
+            "example": "student"
+        }
+    }
+}

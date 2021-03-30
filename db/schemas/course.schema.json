@@ -1,0 +1,38 @@
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer",
+            "description": "A unique course id",
+            "example": "0"
+        },
+        "name": {
+            "type": "string",
+            "description": "The name of the course",
+            "example": "DSA"
+        },
+        "code": {
+            "type": "string",
+            "description": "The course code",
+            "example": "CS F211"
+        },
+        "year": {
+            "type": "integer",
+            "format": "int8",
+            "description": "The year in which the course is conducted",
+            "example": "2021"
+        },
+        "sem": {
+            "type": "integer",
+            "format": "int8",
+            "description": "The sem in which the course is conducted",
+            "example": "2"
+        },
+        "instructor_id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "The uid of the instructor of the course",
+            "example": "7"
+        }
+    }
+}

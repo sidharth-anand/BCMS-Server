@@ -1,0 +1,28 @@
+{
+    "get": {
+        "summary": "get all users",
+        "description": "Returns a list off all users registered to BCMS",
+        "tags": ["Users"],
+        "responses": {
+            "200": {
+                "description": "A list of users",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "../../../db/schemas/user.schema.json"
+                            }
+                        }
+                    }
+                }
+            },
+            "401": {
+                "description": "User is not signed in"
+            },
+            "403": {
+                "description": "User does not have the required permissions"
+            }
+        }
+    }
+}

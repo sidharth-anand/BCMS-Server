@@ -1,0 +1,18 @@
+{
+    "openapi": "3.0.0",
+
+    "info": {
+        "$ref": "./config/swagger.config.json"
+    },
+
+    "servers": [
+        {
+            "url": "http://localhost:5000",
+            "description": "default dev server"
+        }
+    ],
+
+    "paths": {
+        "$ref": "./routes/documentation/paths.json"
+    }
+}

@@ -1,0 +1,40 @@
+{
+    "get": {
+        "summary": "Get courses of a user",
+        "description": "Returns the course info for all courses that the user has registered to",
+        "tags": ["Users", "Courses"],
+        "parameters": [
+            {
+                "name": "id",
+                "in": "path",
+                "description": "uid of user",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "Course info",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "../../../db/schemas/course.schema.json"
+                            }
+                        }
+                    }
+                }
+            },
+            "401": {
+                "description": "The user has not signed in"
+            },
+            "403": {
+                "description": "The user does not have the required permission"
+            }
+        }
+    }
+}
