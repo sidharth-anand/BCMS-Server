@@ -10,6 +10,9 @@ CREATE TABLE IF NOT EXISTS bcms_user(
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
+--Drop the trigger if created previously
+DROP TRIGGER IF EXISTS set_timestamp ON bcms_user;
+
 -- Creating the Trigger
 CREATE TRIGGER set_timestamp
 BEFORE UPDATE ON bcms_user

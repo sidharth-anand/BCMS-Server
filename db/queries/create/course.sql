@@ -8,7 +8,15 @@ CREATE TABLE IF NOT EXISTS bcms_course (
 );
 
 -- Instructor Constraint
-ALTER TABLE bcms_course
-ADD CONSTRAINT FK_course_user
-FOREIGN KEY (instructor_id)
-REFERENCES bcms_user(uid) ON DELETE CASCADE;
+DO $$
+BEGIN
+
+    BEGIN
+        ALTER TABLE bcms_course
+        ADD CONSTRAINT FK_course_user
+        FOREIGN KEY (instructor_id)
+        REFERENCES bcms_user(uid) ON DELETE CASCADE;
+    EXCEPTION
+        WHEN duplicate_object THEN RAISE NOTICE 'Foreign Key constraint FK_course_user already exists';
+    END;
+END $$;
