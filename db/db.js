@@ -24,7 +24,7 @@ async function query(text, params, callback) {
     })
     .catch(err => {
         const duration = Date.now() - start;
-        dbLogger.error('error executing query', { text, duration, rows: res.rowCount });
+        dbLogger.error('error executing query', { text, duration });
         debug("error executing query: " + text + " " + duration);
 
         if(callback) {
