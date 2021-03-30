@@ -48,4 +48,20 @@ router.post('/role/add', authService.validate(['admin']), (req, res, next) => {
     }
 })
 
+router.delete('/role', authService.validate(['admin']), (req, res, next) => {
+    const rid = req.body.rid
+    const uid = req.body.uid
+    if (rid != null && uid != null) {
+        adminService.deleteRole(uid, rid, (err, res) => {
+            if (!err) {
+                res.send(queryRes)
+            } else {
+                res.status(500).send({name: err.name, message: err.message});
+            }
+        })
+    } else {
+        res.status(400).send({name: 'Invalid parameters', message: 'The parameters sent are invalid'});
+    }
+})
+
 module.exports = router;
