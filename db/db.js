@@ -3,6 +3,7 @@ const { Pool } = require('pg');
 const dbLogger = require("../logging/dbLogger");
 const dbConfig = require("../config/config." + process.env.NODE_ENV).dbConfig;
 const debug = require("debug")("BCMS:db");
+const verboseDebug = require("debug")("BCMS:db-verbose");
 
 const fs = require('fs');
 
@@ -16,7 +17,8 @@ async function query(text, params, callback) {
     .then(res => {
         const duration = Date.now() - start;
         dbLogger.info('executed query', { text, duration, rows: res.rowCount });
-        debug('executed query: ' + text + " "  + duration); 
+        debug('executed query: ' + (text.includes('\n') ? text.split('\n')[0].slice(0, 35) : text + " " + duration)); 
+        verboseDebug('exectued query: ' + text + " " + duration);
 
         if(callback) {
             callback(null, res);
@@ -38,6 +40,7 @@ async function query(text, params, callback) {
 async function processFile(filename, params, callback) {
     fs.readFile(filename, "utf8", (err, data) => {
         if(!err) {
+            debug("processed file: " + filename);
             query(data, params, callback);
         }
     });

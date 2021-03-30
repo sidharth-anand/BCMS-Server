@@ -7,7 +7,7 @@
             "request": "launch",
             "env": {
                 "NODE_ENV": "dev",
-                "DEBUG": "BCMS:*"
+                "DEBUG": "BCMS:*,-BCMS:db-verbose"
             },
             "program": "${workspaceFolder}/bin/www",
             "cwd": "${workspaceFolder}",
