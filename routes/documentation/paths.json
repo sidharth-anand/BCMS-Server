@@ -2,11 +2,19 @@
     "/users": {
         "$ref": "users/users.json"
     },
-
     "/users/{id}": {
         "$ref": "users/user-id.json"
     },
 
+    "/courses": {
+        "$ref": "courses/courses.json"
+    },
+    "/courses/create": {
+        "$ref": "courses/courses-create.json"
+    },
+    "/courses/{id}": {
+        "$ref": "courses/courses-update-delete.json"
+    },
     "/users/{id}/courses": {
         "$ref": "users/user-courses.json"
     }

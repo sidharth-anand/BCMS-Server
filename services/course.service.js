@@ -16,7 +16,13 @@ async function updateCourse(courseId, instructorId, updateValues, callback) {
     callback);
 }
 
+async function getAllCourses(callback) {
+    await db.query('SELECT * FROM bcms_course', [], callback);
+    appLogger.info("Retrieved all courses");
+}
+
 module.exports = {
     deleteCourse,
     updateCourse,
+    getAllCourses
 }

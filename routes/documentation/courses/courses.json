@@ -1,0 +1,25 @@
+{
+    "get": {
+        "summary": "Get all courses",
+        "description": "Returns the list of all courses existing in BCMS",
+        "tags": ["Courses"],
+        "responses": {
+            "200": {
+                "description": "A List of courses",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "../../../db/schemas/course.schema.json"
+                            }
+                        }
+                    }
+                }
+            },
+            "401": {
+                "description": "User is not signed in"
+            }
+        }
+    }
+}

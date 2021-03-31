@@ -1,0 +1,92 @@
+{
+    "put": {
+        "summary": "Edit a course",
+        "description": "Edit the course info, identified by the id in the route",
+        "tags": ["Courses"],
+        "parameters": [
+            {
+                "name": "id",
+                "in": "path",
+                "description": "cid of course",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        ],
+        "requestBody": {
+            "description": "Vaues of the course that should be updated",
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "type": "object",
+                        "$ref": "../../../db/schemas/course.schema.json"
+                    }
+                }
+            }
+        },
+        "responses": {
+            "200": {
+                "description": "The updated course info",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "$ref": "../../../db/schemas/course.schema.json"
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "Invalid parameters"
+            },
+            "401": {
+                "description": "The user is not signed in"
+            },
+            "403": {
+                "description": "The user does not have the rqeuired permissions"
+            },
+            "404": {
+                "description": "The given id does not match any existing course"
+            }
+        }
+    },
+    "delete": {
+        "summary": "Delete a course",
+        "description": "Delete the course from BCMS, identified bu the id in the route",
+        "tags": ["Courses"],
+        "parameters": [
+            {
+                "name": "id",
+                "in": "path",
+                "description": "cid of course",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "Succesfully Deleted",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                        }
+                    }
+                }
+            },
+            "401": {
+                "description": "The user is not signed in"
+            },
+            "403": {
+                "description": "The user does not have the rqeuired permissions"
+            },
+            "404": {
+                "description": "The given id does not match any existing course"
+            }
+        }
+    }
+}

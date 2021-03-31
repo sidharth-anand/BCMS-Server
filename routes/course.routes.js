@@ -6,6 +6,16 @@ const courseService = require("../services/course.service");
 const authService = require("../services/auth.service");
 const adminService = require('../services/admin.service');
 
+router.get('/', authService.validate(), (req, res, next) => {
+    courseService.getAllCourses((err, queryRes) => {
+        if(!err) {
+            res.send(queryRes.rows);
+        } else {
+            res.status(500).send({name: err.name, message: err.message});
+        }
+    });
+});
+
 router.post('/create', authService.validate(['faculty']), (req, res, next) => {
     const courseDetails = req.body.course;
     const instructorId = authService.decode(req.headers['authorization'].split(' ')[1]).uid;

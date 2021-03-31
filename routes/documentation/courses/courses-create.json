@@ -1,0 +1,37 @@
+{
+    "post": {
+        "summary": "Create a new course",
+        "description": "Allows a faculty to create a new course",
+        "tags": ["Courses"],
+        "requestBody": {
+            "description": "Course object that needs to be created",
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "type": "object",
+                        "$ref": "../../../db/schemas/course.schema.json"
+                    }
+                }
+            }
+        },
+        "responses": {
+            "200": {
+                "description": "The created course object",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "$ref": "../../../db/schemas/course.schema.json"
+                        }
+                    }
+                }
+            },
+            "401": {
+                "description": "The user is not signed in"
+            },
+            "403": {
+                "description": "The user does not have the required permissions"
+            }
+        }
+    }
+}
