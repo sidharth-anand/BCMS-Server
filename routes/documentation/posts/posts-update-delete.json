@@ -1,0 +1,133 @@
+{
+  "put": {
+    "summary": "To edit a post",
+    "description": "Allows the instructor to change the title and/or body of the post",
+    "tags": [
+      "Posts"
+    ],
+    "requestBody": {
+      "description": "The title and body of the updated post. Both the title and body need to be sent, even if only one of them has been changed",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "updated_title": {
+                "type": "string",
+                "description": "The updated title of the post. Send the old title if the title hasn't been changed",
+                "example": "Evaluations for Lab Project"
+              },
+              "updated_body": {
+                "type": "string",
+                "description": "The contents of the post with HTML formatting. Send the old content if the content hasn't been changed",
+                "example": "<h1>Evaluations</h1> Evals Begin on <b>10th April</b>. <i>Be Ready or be Dead</i>"
+              }
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "The post has been updated",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "$ref": "../../../db/schemas/post.schema.json"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "The parameters sent are invalid",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "$ref": "../../../db/schemas/error-body.schema.json"
+            }
+          }
+        }
+      },
+      "403": {
+        "description": "The user does not have permission to edit this post",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "$ref": "../../../db/schemas/error-body.schema.json"
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "The post ID sent isn't valid and doesn't correspond to a course",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "$ref": "../../../db/schemas/error-body.schema.json"
+            }
+          }
+        }
+      },
+      "500": {
+        "description": "Internal server error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "$ref": "../../../db/schemas/error-body.schema.json"
+            }
+          }
+        }
+      }
+    }
+  },
+  "delete": {
+    "summary": "To delete a post",
+    "description": "Allows the instructor to delte the post entirely",
+    "tags": [
+      "Posts"
+    ],
+    "responses": {
+      "205": {
+        "description": "The post has been deleted, you can update the posts list now"
+      },
+      "403": {
+        "description": "The user does not have permission to delete this post",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "$ref": "../../../db/schemas/error-body.schema.json"
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "The post ID sent isn't valid and doesn't correspond to a course",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "$ref": "../../../db/schemas/error-body.schema.json"
+            }
+          }
+        }
+      },
+      "500": {
+        "description": "Internal server error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "$ref": "../../../db/schemas/error-body.schema.json"
+            }
+          }
+        }
+      }
+    }
+  }
+}
