@@ -69,8 +69,19 @@ function validate(roles) {
     }    
 }
 
+async function getInfoFromToken(token) {
+    // TODO (Siddharth): remove dummy data and actually return user ID and role from token
+    // Return role as 'prof', 'student', or 'admin' and the user ID. Return null if invalid
+
+    return {
+        role: "prof",
+        uid: 345
+    }
+}
+
 module.exports = {
     login,
     register,
-    validate
+    validate,
+    getInfoFromToken
 }
