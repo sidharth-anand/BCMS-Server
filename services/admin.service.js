@@ -18,7 +18,7 @@ async function createCourse(instructorId, course, callback) {
     appLogger.info(`Created new course: ${course.name} with instructor id: ${instructorId}`)
 }
 
-async function deleteCourse(cid, callback) {
+async function deleteCourse(cid, callback, callback) {
     await db.query('DELETE FROM bcms_course WHERE cid = $1', [cid], callback)
     appLogger.info(`Deleted course with cid: ${cid}`)
 }

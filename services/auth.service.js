@@ -69,8 +69,13 @@ function validate(roles) {
     }    
 }
 
+function decode(token) {
+
+}
+
 module.exports = {
     login,
     register,
-    validate
+    validate,
+    decode
 }

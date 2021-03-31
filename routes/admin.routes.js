@@ -3,11 +3,8 @@ const router = express.Router();
 const adminService = require("../services/admin.service");
 const authService = require("../services/auth.service");
 
-const appLogger = require("../logging/appLogger");
-const e = require("express");
-
 router.delete('/course/:id', authService.validate(['admin']), (req, res, next) => {
-    authService.deleteCourse(id, (err, queryRes) => {
+    adminService.deleteCourse(id, (err, queryRes) => {
         if (!err) {
             res.send(queryRes)
         } else {
