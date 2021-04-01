@@ -1,0 +1,16 @@
+{
+    "type": "object",
+    "properties": {
+        "tid": {
+            "type": "integer",
+            "description": "A unique user id",
+            "example": "0",
+            "format": "int64"
+        },
+        "username": {
+            "type": "string",
+            "description": "The tag value",
+            "example": "Announcement"
+        }
+    }
+}
