@@ -19,3 +19,6 @@ node_modules
 #logs
 /log
 *.log
+
+# .idea
+.idea

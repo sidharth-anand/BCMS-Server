@@ -4,7 +4,7 @@ const appLogger = require("../logging/appLogger");
 async function createPost(title, body, courseId, callback) {
     appLogger.info(`Inserting a post titled ${body.substring(10)} in course ${courseId}`)
     try {
-        const post = await db.query("INSERT INTO xbcms_post (title, body, posted_in) VALUES ($1, $2, $3) RETURNING *;", [title, body, postedIn])
+        const post = await db.query("INSERT INTO bcms_post (title, body, posted_in) VALUES ($1, $2, $3) RETURNING *;", [title, body, postedIn])
         callback(null, post.rows[0])
     } catch (err) {
         callback(err, null)
