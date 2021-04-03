@@ -8,11 +8,17 @@ CREATE TABLE IF NOT EXISTS bcms_post (
 );
 
 DROP TRIGGER IF EXISTS set_timestamp ON bcms_post;
+DROP TRIGGER IF EXISTS add_notifications ON bcms_post;
 
 CREATE TRIGGER set_timestamp
 BEFORE UPDATE ON bcms_post
 FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp();
+
+CREATE TRIGGER add_notifications
+AFTER INSERT ON bcms_post
+FOR EACH ROW
+EXECUTE PROCEDURE create_notification_func();
 
 DO $$
 BEGIN
