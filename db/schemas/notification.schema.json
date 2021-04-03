@@ -1,0 +1,17 @@
+{
+    "type": "object",
+    "properties": {
+        "uid": {
+            "type": "integer",
+            "description": "The id of the user receiving the notification",
+            "example": "1435",
+            "format": "int64"
+        },
+        "pid": {
+            "type": "integer",
+            "description": "The id of the post that generated the notification",
+            "example": "5496",
+            "format": "int64"
+        }
+    }
+}
