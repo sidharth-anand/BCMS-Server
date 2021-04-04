@@ -17,5 +17,11 @@
     },
     "/users/{id}/courses": {
         "$ref": "users/user-courses.json"
+    },
+    "/posts/{courseId}": {
+        "$ref": "posts/posts-get-create.json"
+    },
+    "/posts/{postId}": {
+        "$ref": "posts/posts-update-delete.json"
     }
 }

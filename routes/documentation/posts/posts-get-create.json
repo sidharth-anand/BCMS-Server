@@ -1,0 +1,121 @@
+{
+  "post": {
+    "summary": "To add a new post to a course",
+    "description": "Allows the instructor of a course to create a post",
+    "tags": [
+      "Posts"
+    ],
+    "requestBody": {
+      "description": "The title and body of the post that needs to be created",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string",
+                "description": "The title of the post",
+                "example": "Evaluations for Lab Project"
+              },
+              "body": {
+                "type": "string",
+                "description": "The contents of the post with HTML formatting",
+                "example": "<h1>Evaluations</h1> Evals Begin on <b>10th April</b>. <i>Be Ready or be Dead</i>"
+              }
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "The post has been created",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "$ref": "../../../db/schemas/post.schema.json"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "The parameters sent are invalid",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "$ref": "../../../db/schemas/error-body.schema.json"
+            }
+          }
+        }
+      },
+      "403": {
+        "description": "The user does not have permission to create a post",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "$ref": "../../../db/schemas/error-body.schema.json"
+            }
+          }
+        }
+      },
+      "500": {
+        "description": "Internal server error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "$ref": "../../../db/schemas/error-body.schema.json"
+            }
+          }
+        }
+      }
+    }
+  },
+  "get": {
+    "summary": "To get all the posts in a particular course",
+    "description": "Allows the student, instructor, or admin to get all the posts made in the course",
+    "tags": [
+      "Posts"
+    ],
+    "responses": {
+      "200": {
+        "description": "A list of posts",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "../../../db/schemas/post.schema.json"
+              }
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "The parameters sent are invalid",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "$ref": "../../../db/schemas/error-body.schema.json"
+            }
+          }
+        }
+      },
+      "403": {
+        "description": "User not permitted to view this course's posts",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "$ref": "../../../db/schemas/error-body.schema.json"
+            }
+          }
+        }
+      }
+    }
+  }
+}
