@@ -29,6 +29,7 @@ async function login(username, password, callback) {
             username: user.username,
             name: user.name,
             email: user.email,
+            bio: user.bio,
             role: role
         }, authConfig.tokenKey, {
             algorithm: authConfig.tokenAlgorithm
