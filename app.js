@@ -19,6 +19,19 @@ if (config.behindHttps) {
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
+//CORS
+const cors = require("cors");
+const corsConfig = require("./config/config." + process.env.NODE_ENV).corsConfig;
+app.use(cors({
+  origin: (origin, cb) => {
+    if(corsConfig.allow.indexOf(origin) !== -1 || corsConfig.allow.indexOf("*") !== -1) {
+      cb(null, true);
+    } else {
+      cb(new Error("Not allowed through CORS"));
+    }
+  }
+}));
+
 //remove if using reverse proxy as that will handle compression
 const compression = require("compression"); 
 app.use(compression());
@@ -39,10 +52,12 @@ initDB.init();
 const test = require("./routes/test.routes");
 const users = require("./routes/user.routes");
 const admin = require("./routes/admin.routes");
+const auth = require("./routes/auth.routes");
 
 app.use("/test", test);
 app.use("/users", users);
 app.use("/admin", admin);
+app.use("/auth", auth);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

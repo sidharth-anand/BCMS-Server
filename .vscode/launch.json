@@ -9,9 +9,10 @@
                 "NODE_ENV": "dev",
                 "DEBUG": "BCMS:*,-BCMS:db-verbose"
             },
-            "program": "${workspaceFolder}/bin/www",
+            "program": "${workspaceFolder}/node_modules/nodemon/bin/nodemon.js",
             "cwd": "${workspaceFolder}",
-            "console": "integratedTerminal"
+            "console": "integratedTerminal",
+            "args": ["bin/www"]
         },
         {
             "name": "View Documentation",
