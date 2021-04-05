@@ -13,7 +13,7 @@ BEGIN
         ALTER TABLE bcms_notification
         ADD CONSTRAINT FK_notification_user
         FOREIGN KEY (uid)
-        REFERENCES bcms_user(uid);
+        REFERENCES bcms_user(uid) ON DELETE CASCADE;
     EXCEPTION
         WHEN duplicate_object THEN RAISE NOTICE 'Foreign Key FK_notification_user already exists';
     END;
@@ -26,7 +26,7 @@ BEGIN
         ALTER TABLE bcms_notification
         ADD CONSTRAINT FK_notification_post
         FOREIGN KEY (pid)
-        REFERENCES bcms_post(pid);
+        REFERENCES bcms_post(pid) ON DELETE CASCADE;
     EXCEPTION
         WHEN duplicate_object THEN RAISE NOTICE 'Foreign Key FK_notification_post already exists';
     END;

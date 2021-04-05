@@ -26,7 +26,7 @@ BEGIN
         ALTER TABLE bcms_registered_in
         ADD CONSTRAINT FK_registered_in_course
         FOREIGN KEY (cid)
-        REFERENCES bcms_post(pid);
+        REFERENCES bcms_course(cid);
     EXCEPTION
         WHEN duplicate_object THEN RAISE NOTICE 'Foreign Key FK_registered_in_course already exists';
     END;

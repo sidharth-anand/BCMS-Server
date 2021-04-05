@@ -1,0 +1,30 @@
+{
+    "type": "object",
+    "properties": {
+        "post_id": {
+            "type": "integer",
+            "description": "An ID that can be used to uniquely identify a post.",
+            "example": "23"
+        },
+        "title": {
+            "type": "string",
+            "description": "The title of the post",
+            "example": "Evaluations for Lab Project"
+        },
+        "body": {
+            "type": "string",
+            "description": "The contents of the post with HTML formatting",
+            "example": "<h1>Evaluations</h1> Evals Begin on <b>10th April</b>. <i>Be Ready or be Dead</i>"
+        },
+        "created_at": {
+            "type": "string",
+            "description": "The date and time of the creation of the post",
+            "example": "2021-03-28 18:00:40.728423 +00:00"
+        },
+        "updated_at": {
+            "type": "string",
+            "description": "The last date and time of when the post's contents were updated",
+            "example": "2021-03-28 18:00:40.728423 +00:00"
+        }
+    }
+}

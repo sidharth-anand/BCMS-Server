@@ -24,7 +24,7 @@ router.post("/posts/:courseId", authService.validate(), async (req, res) => {
                     })
                 }
             })
-        } else { 
+        } else {
             res.status(403).send({
                 name: "User not instructor of course",
                 message: "You must be the instructor of this course to create a post"
@@ -96,7 +96,7 @@ router.put("/posts/:postId", authService.validate(), (req, res) => {
                 })
             }
         } else {
-            res.status(400).send({
+            res.status(404).send({
                 name: "Invalid post",
                 message: "The post doesn't correspond to any available course"
             })
@@ -133,7 +133,7 @@ router.delete("/posts/:postId", authService.validate(), (req, res) => {
             })
         }
     } else {
-        res.status(400).send({
+        res.status(404).send({
             name: "Invalid post",
             message: "The post doesn't correspond to any available course"
         })
