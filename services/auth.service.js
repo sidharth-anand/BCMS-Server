@@ -37,12 +37,14 @@ async function login(username, password, callback) {
         const token = jwt.sign({
             id: user.uid,
             username: user.username,
-            name: user.name,
+            name: user.display_name,
             email: user.email,
             role: role.rows[0].label
         }, authConfig.tokenKey, {
             algorithm: authConfig.tokenAlgorithm
         });
+
+        console.log(token);
 
         callback(null, {
             accessToken: token,
