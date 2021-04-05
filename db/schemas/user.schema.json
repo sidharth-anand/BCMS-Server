@@ -16,6 +16,11 @@
             "description": "The user's full name",
             "example": "Sidharth Anand"
         },
+        "bio": {
+            "type": "string",
+            "description": "A short description of the user",
+            "example": "CSE Undergrad at BITS Pilani | Interested in Machine Learning, it's applications in Robotics and in Finance alongwith Full Stack Web Development."
+        },
         "email": {
             "type": "string",
             "description": "The user's email id (unique)",
