@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS bcms_post (
     pid SERIAL PRIMARY KEY,
-    title VARCHAR(64) NOT NULL,
+    title TEXT NOT NULL,
     body TEXT,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
