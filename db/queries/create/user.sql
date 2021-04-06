@@ -2,6 +2,7 @@ CREATE TABLE IF NOT EXISTS bcms_user(
     uid SERIAL PRIMARY KEY,
     username TEXT UNIQUE NOT NULL,
     display_name TEXT,
+    bio TEXT NOT NULL DEFAULT '',
     email TEXT UNIQUE NOT NULL,
     phone_no TEXT,
     password TEXT,
