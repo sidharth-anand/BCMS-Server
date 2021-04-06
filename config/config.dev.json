@@ -41,6 +41,11 @@
     },
     "authConfig": {
         "tokenKey": "PandaSUXbalz",
-        "tokenAlgorithm": "RS256"
+        "tokenAlgorithm": "HS256"
+    },
+    "corsConfig": {
+        "allow": [
+            "*"
+        ]
     }
 }

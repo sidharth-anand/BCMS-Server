@@ -4,7 +4,7 @@ const router = express.Router()
 const postsService = require('../services/posts.service')
 const authService = require('../services/auth.service')
 
-router.post("/posts/:courseId", authService.validate(), async (req, res) => {
+router.post("/:courseId", authService.validate(), async (req, res) => {
     const userInfo = authService.getInfoFromToken(req.headers.token)
 
     const courseId = req.params.courseId
@@ -38,7 +38,7 @@ router.post("/posts/:courseId", authService.validate(), async (req, res) => {
     }
 })
 
-router.get("/posts/:courseId", authService.validate(), (req, res) => {
+router.get("/:courseId", authService.validate(), (req, res) => {
     const userInfo = authService.getInfoFromToken(req.headers.token)
     const courseId = req.params.courseId
 
@@ -68,7 +68,7 @@ router.get("/posts/:courseId", authService.validate(), (req, res) => {
     }
 })
 
-router.put("/posts/:postId", authService.validate(), (req, res) => {
+router.put("/:postId", authService.validate(), (req, res) => {
     const userInfo = authService.getInfoFromToken(req.headers.token)
     const postId = req.params.postId
 
@@ -109,7 +109,7 @@ router.put("/posts/:postId", authService.validate(), (req, res) => {
     }
 })
 
-router.delete("/posts/:postId", authService.validate(), (req, res) => {
+router.delete("/:postId", authService.validate(), (req, res) => {
     const userInfo = authService.getInfoFromToken(req.headers.token)
     const postId = req.params.postId
 

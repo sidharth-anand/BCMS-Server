@@ -1,11 +1,11 @@
 CREATE TABLE IF NOT EXISTS bcms_user(
     uid SERIAL PRIMARY KEY,
-    username VARCHAR(32) UNIQUE NOT NULL,
-    display_name VARCHAR(64),
+    username TEXT UNIQUE NOT NULL,
+    display_name TEXT,
     bio TEXT NOT NULL DEFAULT '',
-    email VARCHAR(64) UNIQUE NOT NULL,
-    phone_no VARCHAR(15),
-    password VARCHAR(64),
+    email TEXT UNIQUE NOT NULL,
+    phone_no TEXT,
+    password TEXT,
     verified BOOLEAN,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()

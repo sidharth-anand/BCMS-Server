@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS bcms_course (
     cid SERIAL PRIMARY KEY,
-    name VARCHAR(64) NOT NULL,
-    code VARCHAR(8) NOT NULL,
+    name TEXT NOT NULL,
+    code TEXT NOT NULL,
     year SMALLINT NOT NULL,
     sem SMALLINT NOT NULL, -- Set to varchar(n) to accomodate summer term
     instructor_id INTEGER NOT NULL
