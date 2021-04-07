@@ -58,3 +58,5 @@ router.put('/:id', authService.validate(['faculty']), (req, res, next) => {
         res.status(400).send({name: 'Invalid parameters', message: 'The parameters sent are invalid'});
     }
 });
+
+module.exports = router
