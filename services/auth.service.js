@@ -82,7 +82,7 @@ function validate(roles) {
             return res.status(401).send();
         }
 
-    }    
+    }
 }
 
 async function getInfoFromToken(token) {
