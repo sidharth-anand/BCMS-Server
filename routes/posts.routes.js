@@ -139,3 +139,5 @@ router.delete("/:postId", authService.validate(), (req, res) => {
         })
     }
 })
+
+module.exports = router
