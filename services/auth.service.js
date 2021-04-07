@@ -8,49 +8,29 @@ const appLogger = require("../logging/appLogger");
 const authConfig = require("../config/config.dev.json").authConfig;
 
 async function register(user, callback) {
-    if(!user.username || !user.password || !user.email || !user.name) {
-        callback({name: 'Incomplete User Details', message: 'Details missing'}, null);
-    }
-
     const securePassword = await bcrypt.hash(user.password, 10);
-
-    await db.query("INSERT INTO bcms_user(username, password, email, display_name, phone_no, verified) VALUES($1, $2, $3, $4, $5, $6)", [user.username, securePassword, user.email, user.name, user.phone_no, false], callback);
-
-    let res = await db.query("SELECT uid from bcms_user WHERE username = $1", [user.username]);
-    const uid = res.rows[0].uid;
-
-    res = await db.query("SELECT rid FROM bcms_role WHERE label = $1", ["student"]);
-    const rid = res.rows[0].rid;
-
-    db.query("INSERT INTO bcms_user_role(uid, rid) values($1, $2);", [uid, rid]);
-
+    await db.query("INSERT INTO bcms_user(username, password, email, name, phone) VALUES($1, $2, $3, $4, $5)", [user.username, securePassword, user.email, user.name, user.phone || null], callback);
     appLogger.info("Registered new user: " + user.username);
 }
 
 async function login(username, password, callback) {
     try {
-        const queryRes = await db.query("SELECT * FROM bcms_user WHERE username = $1", [username]);
-        const user = queryRes.rows[0];
+        const user = await db.query("SELECT * FROM bcms_user WHERE username = $1", [username])[0];
 
-        const role = await db.query("SELECT r.label FROM bcms_user_role AS ur, bcms_role AS r WHERE ur.uid = $1 AND r.rid = ur.rid", [user.uid]);
+        const role = await db.query("SELECT r.label FROM user_role AS ur, role AS r, WHERE ur.uid = $1 AND r.rid = ur.rid", [user.uid]);
 
         const token = jwt.sign({
             id: user.uid,
             username: user.username,
-            name: user.display_name,
+            name: user.name,
             email: user.email,
             bio: user.bio,
-            role: role.rows[0].label
+            role: role
         }, authConfig.tokenKey, {
             algorithm: authConfig.tokenAlgorithm
         });
 
-        console.log(token);
-
-        callback(null, {
-            accessToken: token,
-            refreshToken: "fuckOffYouDontGetOne"
-        });
+        callback(null, token);
 
         appLogger.info("Logged in: " + username);
     } catch(err) {
@@ -89,9 +69,15 @@ async function getInfoFromToken(token) {
     return jwt.decode(token);
 }
 
+async function isUsernameNotUnique(username) {
+    const matchingUsernames = await db.query("SELECT username FROM bcms_user WHERE username == $1;", [username])
+    return (matchingUsernames != null && matchingUsernames.length == 1)
+}
+
 module.exports = {
     login,
     register,
     validate,
-    getInfoFromToken
+    getInfoFromToken,
+    isUsernameNotUnique
 }
