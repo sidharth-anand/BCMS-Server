@@ -17,7 +17,7 @@ router.get("/", authService.validate(), (req, res, next) => {
 router.get("/user/:id", authService.validate(),  (req, res, next) => {
     userService.getUserInfo(req.params.id, (err, queryRes) => {
         if(!err) {
-            res.send(queryRes.rows[0]);
+            res.send(queryRes);
         } else {
             res.status(500).send({name: err.name, message: err.message});
         }
