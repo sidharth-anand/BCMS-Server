@@ -1,6 +1,6 @@
 const db = require("./db");
 
-(function(){
+(async function(){
     db.processFileSequence([
         "./db/queries/insert/role.sql",
         "./db/queries/insert/user.sql",
