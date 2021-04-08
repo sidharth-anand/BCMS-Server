@@ -12,9 +12,8 @@ async function getUserInfo(id, callback) {
         let res = await db.query("SELECT * from bcms_user WHERE uid = $1", [id]);
         const user = res.rows[0];
         
-          res = await db.query("SELECT r.label FROM user_role AS ur, role AS r, WHERE ur.uid = $1 AND r.rid = ur.rid", [user.uid]);
-          const roles = res.rows;
-
+        res = await db.query("SELECT r.label FROM bcms_user_role AS ur, bcms_role AS r WHERE ur.uid = $1 AND r.rid = ur.rid", [user.uid]);
+        const roles = res.rows;
         appLogger.info("Fetched info for user: " + user.username);
 
         callback(null, {
@@ -27,7 +26,7 @@ async function getUserInfo(id, callback) {
 }
 
 async function getCoursesOfUser(id, callback) {
-    await db.query("SELECT c.cid, c.name, c.code, c.instructor FROM bcms_user as u, COURSES as c, enrolled_in as e WHERE u.uid = $1 AND e.uid = u.uid AND u.cid = c.cid", [id], callback);
+    await db.query("SELECT c.cid, c.name, c.code, c.instructor_id, i.display_name as instructor_name FROM bcms_user as u, bcms_user i, bcms_course as c, bcms_registered_in as e WHERE u.uid = $1 AND e.uid = u.uid AND e.cid = c.cid AND i.uid = c.instructor_id;", [id], callback);
 
     appLogger.info("Fetched courses for user with uid: " + id);
 }
