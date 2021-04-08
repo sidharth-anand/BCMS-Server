@@ -56,6 +56,7 @@ const auth = require("./routes/auth.routes");
 const notification = require("./routes/notification.routes");
 const courses = require("./routes/course.routes");
 const posts = require("./routes/posts.routes");
+const search = require("./routes/search.routes");
 
 app.use("/test", test);
 app.use("/users", users);
@@ -64,6 +65,7 @@ app.use("/auth", auth);
 app.use("/notification", notification);
 app.use("/courses", courses);
 app.use("/posts", posts);
+app.use("/search", search);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

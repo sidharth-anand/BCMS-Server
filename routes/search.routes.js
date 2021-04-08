@@ -5,7 +5,7 @@ const router = express.Router();
 const authService = require("../services/auth.service");
 const searchService = require("../services/search.service");
 
-router.get("/", authService.validate(), (req, res, next) => {
+router.get("/", (req, res, next) => {
     const searchText = req.query.search;
 
     searchService.search(searchText, (err, queryRes) => {
@@ -17,3 +17,5 @@ router.get("/", authService.validate(), (req, res, next) => {
     })
 
 });
+
+module.exports = router;
