@@ -46,7 +46,7 @@ router.get("/:courseId", authService.validate(), (req, res) => {
         if (postsService.canViewCoursePosts(userInfo, courseId)) {
             postsService.getAllPostsInCourse(courseId, (err, queryResult) => {
                 if (!err) {
-                    res.send(queryResult.rows)
+                    res.send(queryResult)
                 } else {
                     res.status(500).send({
                         name: err.name,
