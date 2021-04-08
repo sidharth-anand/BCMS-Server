@@ -9,15 +9,17 @@ async function getAllUsers(callback) {
 
 async function getUserInfo(id, callback) {
     try {
-        const user = await db.query("SELECT * FROM bcms_user WHERE uid = $1", [id])[0];
-
-        const role = await db.query("SELECT r.label FROM user_role AS ur, role AS r, WHERE ur.uid = $1 AND r.rid = ur.rid", [user.uid]);
+        let res = await db.query("SELECT * from bcms_user WHERE uid = $1", [id]);
+        const user = res.rows[0];
+        
+          res = await db.query("SELECT r.label FROM user_role AS ur, role AS r, WHERE ur.uid = $1 AND r.rid = ur.rid", [user.uid]);
+          const roles = res.rows;
 
         appLogger.info("Fetched info for user: " + user.username);
 
         callback(null, {
             ...user,
-            role
+            roles
         });
     } catch(err) {
         callback(err, null);
