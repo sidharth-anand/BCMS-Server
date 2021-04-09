@@ -23,25 +23,23 @@ async function getAllPostsInCourse(courseId, callback) {
 
 async function getPostById(postId, callback) {
     try {
-        let res = await db.query("SELECT * FROM bcms_post WHERE pid = $1", [postId]);
-        const post = res.rows[0];
-    
-        res = await db.query("SELECT t.label FROM bcms_tag as t, bcms_post_tag as pt WHERE t.tid = pt.tid AND pt.pid = $1", [postId]);
-        const tags = res.rows;
+        const postDetails = (await db.query("SELECT * FROM bcms_post WHERE pid = $1", [postId])).rows[0]
+
+        const tags = (await db.query("SELECT t.tid AS tag_id, t.tag AS text FROM bcms_tag t, bcms_post_tag pt WHERE t.tid = pt.tid AND pt.pid = $1;", [postId])).rows
 
         callback(null, {
-            ...post,
+            ...postDetails,
             tags
-        });
+        })
     } catch(err) {
-        callback(err, null);
+        callback(err, null)
     }
 }
 
 async function updatePost(postId, title, body, callback) {
     appLogger.info(`Updating post content of post id: ${postId}`)
     try {
-        const updatedPost = await db.query("UPDATE bcms_posts SET title = $1, body = $2 WHERE posted_in = $3 RETURNING *;", [title, body, postId])
+        const updatedPost = await db.query("UPDATE bcms_post SET title = $1, body = $2 WHERE posted_in = $3 RETURNING *;", [title, body, postId])
         callback(null, updatedPost.rows[0])
     } catch (err) {
         callback(err, null)
@@ -51,7 +49,7 @@ async function updatePost(postId, title, body, callback) {
 async function deletePost(postId, callback) {
     appLogger.info(`Deleting post with post id: ${postId}`)
     try {
-        await db.query("DELETE FROM bcms_posts WHERE pid = $1;", [postId], callback)
+        await db.query("DELETE FROM bcms_post WHERE pid = $1;", [postId], callback)
     } catch (err) {
         callback(err, null)
     }
