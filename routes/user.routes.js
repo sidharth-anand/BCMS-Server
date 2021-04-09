@@ -14,7 +14,7 @@ router.get("/", authService.validate(), (req, res, next) => {
     });
 });
 
-router.get("/user/:id", authService.validate(),  (req, res, next) => {
+router.get("/:id", authService.validate(),  (req, res, next) => {
     userService.getUserInfo(req.params.id, (err, queryRes) => {
         if(!err) {
             res.send(queryRes);
@@ -24,7 +24,7 @@ router.get("/user/:id", authService.validate(),  (req, res, next) => {
     });
 });
 
-router.get("user/:id/courses", authService.validate(),  (req, res, next) => {
+router.get("/:id/courses", authService.validate(),  (req, res, next) => {
     userService.getCoursesOfUser(req.params.id, (err, queryRes) => {
         if(!err) {
             res.send(queryRes.rows);
@@ -34,7 +34,7 @@ router.get("user/:id/courses", authService.validate(),  (req, res, next) => {
     });
 });
 
-router.post("user/create", authService.validate(), (async (req, res) => {
+router.post("/create", authService.validate(), (async (req, res) => {
     const username = req.body.user_name
     const displayName = req.body.display_name
     const bio = req.body.bio || ""
