@@ -14,7 +14,7 @@ async function createPost(title, body, courseId, callback) {
 async function getAllPostsInCourse(courseId, callback) {
     appLogger.info(`Getting all posts for course with id ${courseId}`)
     try {
-        const posts = await db.query("SELECT pid AS post_id, title, body, created_at, updated_at FROM bcms_post WHERE posted_in = $1;", [courseId])
+        const posts = await db.query("SELECT pid, title, body, created_at, updated_at FROM bcms_post WHERE posted_in = $1;", [courseId])
         callback(null, posts.rows)
     } catch (err) {
         callback(err, null)
@@ -26,7 +26,7 @@ async function getPostById(postId, callback) {
         let res = await db.query("SELECT * FROM bcms_post WHERE pid = $1", [postId]);
         const post = res.rows[0];
     
-        res = await db.query("SELECT t.label FROM bcms_tag as t, bcms_post_tag as pt WHERE t.tid = pt.tid AND pt.pid = $1", [postId]);
+        res = await db.query("SELECT t.tag FROM bcms_tag as t, bcms_post_tag as pt WHERE t.tid = pt.tid AND pt.pid = $1", [postId]);
         const tags = res.rows;
 
         callback(null, {
