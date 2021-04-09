@@ -81,4 +81,28 @@ router.get("/:id/students", authService.validate(['faculty', 'admin']), (req, re
     })
 });
 
+router.post("/:id/enroll", authService.validate(), (req, res, next) => {
+    const cid = req.params.id;
+    const uid = req.body.id;
+    courseService.enrollStudentInCourse(cid, uid, (err, queryRes) => {
+        if(!err) {
+            res.send({enrolled: true});
+        } else {
+            res.status(500).send({name: err.name, message: err.message});
+        }
+    });
+});
+
+router.post("/:id/disenroll", authService.validate(), (req, res, next) => {
+    const cid = req.params.id;
+    const uid = req.body.id;
+    courseService.disenrollStudentFromCourse(cid, uid, (err, queryRes) => {
+        if(!err) {
+            res.send({disenrolled: true});
+        } else {
+            res.status(500).send({name: err.name, message: err.message});
+        }
+    });
+});
+
 module.exports = router

@@ -31,10 +31,22 @@ async function getStudentsInCourse(courseId, callback) {
     appLogger.info("Retrieved students for course: " + courseId);
 }
 
+async function enrollStudentInCourse(courseId, userId, callback) {
+    await db.query("INSERT INTO bcms_registered_in(uid, cid) VALUES($1, $2)", [userId, courseId], callback);
+    appLogger.info(`Registered ${userId} to ${courseId}`);
+}
+
+async function disenrollStudentFromCourse(courseId, userId, callback) {
+    await db.query("DELETE FROM bcms_registered_in WHERE uid = $1 AND cid = $2", [userId, courseId], callback);
+    appLogger.info(`Removed ${userId} from ${courseId}`);
+}
+
 module.exports = {
     getCourseByID,
     deleteCourse,
     updateCourse,
     getAllCourses,
-    getStudentsInCourse
+    getStudentsInCourse,
+    enrollStudentInCourse,
+    disenrollStudentFromCourse
 }
