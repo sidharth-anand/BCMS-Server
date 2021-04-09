@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 
 const courseService = require("../services/course.service");
+const postsService = require("../services/posts.service")
 const authService = require("../services/auth.service");
 const adminService = require('../services/admin.service');
 
