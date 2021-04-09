@@ -32,6 +32,17 @@ router.post('/create', authService.validate(['faculty']), (req, res, next) => {
     }
 });
 
+router.get("/:id", authService.validate(), (req, res, next) => {
+    const cid = req.params.id;
+    courseService.getCourseByID(cid, (err, queryRes) => {
+        if(!err) {
+            res.send(queryRes.rows[0]);
+        } else {
+            res.status(500).send({name: err.name, message: err.message});
+        }
+    });
+});
+
 router.delete('/:id', authService.validate(['faculty']), (req, res, next) => {
     const instructorId = authService.decode(req.headers['authorization'].split(' ')[1]).uid;
     courseService.deleteCourse(id, instructorId, (err, queryRes) => {
