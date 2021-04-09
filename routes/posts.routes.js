@@ -68,6 +68,20 @@ router.get("/:courseId", authService.validate(), (req, res) => {
     }
 })
 
+router.get("/:postId", authService.validate(), (req, res, next) => {
+    const postID = req.params.postId;
+    postsService.getPostById(postID, (err, queryRes) => {
+        if(!err) {
+            res.send(queryRes);
+        } else {
+            res.status(500).send({
+                name: err.name,
+                message: err.message
+            });
+        }
+    });
+});
+
 router.put("/:postId", authService.validate(), (req, res) => {
     const userInfo = authService.getInfoFromToken(req.headers.token)
     const postId = req.params.postId

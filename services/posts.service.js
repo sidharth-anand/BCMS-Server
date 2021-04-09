@@ -21,6 +21,23 @@ async function getAllPostsInCourse(courseId, callback) {
     }
 }
 
+async function getPostById(postId, callback) {
+    try {
+        let res = await db.query("SELECT * FROM bcms_post WHERE pid = $1", [postId]);
+        const post = res.rows[0];
+    
+        res = await db.query("SELECT t.label FROM bcms_tag as t, bcms_post_tag as pt WHERE t.tid = pt.tid AND pt.pid = $1", [postId]);
+        const tags = res.rows;
+
+        callback(null, {
+            ...post,
+            tags
+        });
+    } catch(err) {
+        callback(err, null);
+    }
+}
+
 async function updatePost(postId, title, body, callback) {
     appLogger.info(`Updating post content of post id: ${postId}`)
     try {
@@ -71,6 +88,7 @@ async function canViewCoursePosts(userInfo, courseId) {
 module.exports = {
     createPost,
     getAllPostsInCourse,
+    getPostById,
     updatePost,
     deletePost,
     isInstructorOfCourse,
