@@ -2,7 +2,6 @@ const db = require("../db/db");
 const appLogger = require("../logging/appLogger");
 
 async function getNotifications(uid, callback) {
-    console.log(uid)
     await db.query("SELECT p.pid, p.title, p.posted_in, c.name, p.created_at FROM bcms_notification n, bcms_post p, bcms_course c WHERE n.uid = $1 AND p.pid = n.pid AND p.posted_in = c.cid", [uid], callback)
     appLogger.info(`User with id: ${uid} requested for notifications`)
 }
