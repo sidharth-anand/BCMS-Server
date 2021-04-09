@@ -70,4 +70,15 @@ router.put('/:id', authService.validate(['faculty']), (req, res, next) => {
     }
 });
 
+router.get("/:id/students", authService.validate(['faculty', 'admin']), (req, res, next) => {
+    const cid = req.params.id;
+    courseService.getStudentsInCourse(cid, (err, queryRes) => {
+        if(!err) {
+            res.send(queryRes.rows);
+        } else {
+            res.status(500).send({name: err.name, message: err.message});
+        }
+    })
+});
+
 module.exports = router

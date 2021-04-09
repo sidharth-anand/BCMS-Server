@@ -26,9 +26,15 @@ async function getAllCourses(callback) {
     appLogger.info("Retrieved all courses");
 }
 
+async function getStudentsInCourse(courseId, callback) {
+    await db.query("SELECT u.uid, u.username, u.display_name, u.email FROM bcms_user as u, bcms_course as c, bcms_registered_in as r WHERE c.cid = $1 AND r.cid = c.cid AND r.uid = u.uid", [courseId], callback);
+    appLogger.info("Retrieved students for course: " + courseId);
+}
+
 module.exports = {
     getCourseByID,
     deleteCourse,
     updateCourse,
-    getAllCourses
+    getAllCourses,
+    getStudentsInCourse
 }
