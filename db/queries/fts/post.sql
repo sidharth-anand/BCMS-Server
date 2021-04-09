@@ -1,7 +1,7 @@
 CREATE OR REPLACE FUNCTION update_search_idx_post()
 RETURNS TRIGGER AS $$
 BEGIN
-    new.search_idx := setweight(to_tsvector('english'), coalesce(new.title, ''), 'A');
+    new.search_idx := setweight(to_tsvector('english', coalesce(new.title, '')), 'A');
     return new;
 END;
 $$ LANGUAGE plpgsql;
