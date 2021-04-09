@@ -4,6 +4,8 @@ const router = express.Router()
 const postsService = require('../services/posts.service')
 const authService = require('../services/auth.service')
 
+const appLogger = require("../logging/appLogger");
+
 router.post("/:courseId", authService.validate(), async (req, res) => {
     const userInfo = authService.getInfoFromToken(req.headers.token)
 
@@ -37,6 +39,7 @@ router.post("/:courseId", authService.validate(), async (req, res) => {
         })
     }
 })
+
 
 router.get("/:postId", authService.validate(), (req, res, next) => {
     const postID = req.params.postId;
