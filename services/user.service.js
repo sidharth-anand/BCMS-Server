@@ -26,7 +26,7 @@ async function getUserInfo(id, callback) {
 }
 
 async function getCoursesOfUser(id, callback) {
-    await db.query("SELECT c.cid, c.name, c.code, c.instructor_id, i.display_name as instructor_name FROM bcms_user as u, bcms_user i, bcms_course as c, bcms_registered_in as e WHERE u.uid = $1 AND e.uid = u.uid AND e.cid = c.cid AND i.uid = c.instructor_id;", [id], callback);
+    await db.query("SELECT c.cid, c.name, c.code, c.sem, c.year, c.instructor_id, i.display_name as instructor_name FROM bcms_user as u, bcms_user i, bcms_course as c, bcms_registered_in as e WHERE u.uid = $1 AND e.uid = u.uid AND e.cid = c.cid AND i.uid = c.instructor_id;", [id], callback);
 
     appLogger.info("Fetched courses for user with uid: " + id);
 }
