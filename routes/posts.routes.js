@@ -38,36 +38,6 @@ router.post("/:courseId", authService.validate(), async (req, res) => {
     }
 })
 
-router.get("/:courseId", authService.validate(), (req, res) => {
-    const userInfo = authService.getInfoFromToken(req.headers.token)
-    const courseId = req.params.courseId
-
-    if (userInfo != null) {
-        if (postsService.canViewCoursePosts(userInfo, courseId)) {
-            postsService.getAllPostsInCourse(courseId, (err, queryResult) => {
-                if (!err) {
-                    res.send(queryResult)
-                } else {
-                    res.status(500).send({
-                        name: err.name,
-                        message: err.message
-                    })
-                }
-            })
-        } else {
-            res.status(403).send({
-                name: "Not eligible to view this course's posts",
-                message: "You must be registered in this course, be the instructor of this course, or be an admin to view this course's posts"
-            })
-        }
-    } else {
-        res.status(400).send({
-            name: 'Invalid parameters',
-            message: 'The parameters sent are invalid'
-        })
-    }
-})
-
 router.get("/:postId", authService.validate(), (req, res, next) => {
     const postID = req.params.postId;
     postsService.getPostById(postID, (err, queryRes) => {
