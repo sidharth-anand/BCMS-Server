@@ -16,6 +16,36 @@ router.get('/', authService.validate(), (req, res, next) => {
     });
 });
 
+router.get("/:courseId/posts", authService.validate(), (req, res) => {
+    const userInfo = authService.getInfoFromToken(req.headers.token)
+    const courseId = req.params.courseId
+
+    if (userInfo != null) {
+        if (postsService.canViewCoursePosts(userInfo, courseId)) {
+            postsService.getAllPostsInCourse(courseId, (err, queryResult) => {
+                if (!err) {
+                    res.send(queryResult)
+                } else {
+                    res.status(500).send({
+                        name: err.name,
+                        message: err.message
+                    })
+                }
+            })
+        } else {
+            res.status(403).send({
+                name: "Not eligible to view this course's posts",
+                message: "You must be registered in this course, be the instructor of this course, or be an admin to view this course's posts"
+            })
+        }
+    } else {
+        res.status(400).send({
+            name: 'Invalid parameters',
+            message: 'The parameters sent are invalid'
+        })
+    }
+})
+
 router.post('/create', authService.validate(['faculty']), (req, res, next) => {
     const courseDetails = req.body.course;
     const instructorId = authService.decode(req.headers['authorization'].split(' ')[1]).uid;
