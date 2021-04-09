@@ -40,11 +40,10 @@ router.post("/:courseId", authService.validate(), async (req, res) => {
     }
 })
 
-router.get("/:postId", (req, res) => {
-    const postId = req.params.postId;
-    console.log(`hit GET post by post id ${postId}`)
 
-    postsService.getPostById(postId, (err, queryRes) => {
+router.get("/:postId", authService.validate(), (req, res, next) => {
+    const postID = req.params.postId;
+    postsService.getPostById(postID, (err, queryRes) => {
         if(!err) {
             res.send(queryRes);
         } else {
