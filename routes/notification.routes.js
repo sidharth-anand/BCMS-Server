@@ -4,7 +4,7 @@ const notificationService = require("../services/notification.service");
 const authService = require("../services/auth.service");
 
 router.get('/', authService.validate(), async (req, res, next) => {
-    const userInfo = await authService.getInfoFromToken(req.headers.authorization.split(' ')[1])
+    const userInfo = authService.getInfoFromToken(authService.extractToken(req));
     notificationService.getNotifications(userInfo.id, (err, queryRes) => {
         if (!err) {
             res.send(queryRes.rows)
@@ -18,10 +18,10 @@ router.get('/', authService.validate(), async (req, res, next) => {
 })
 
 router.post('/read/all', authService.validate(), async (req, res, next) => {
-    // const uid = authService.getInfoFromToken(req.headers.token).uid
-    const userInfo = await authService.getInfoFromToken(req.headers.authorization.split(' ')[1])
-    const pid = req.params.id
-    notificationService.clearAllNotifications(userInfo.id, (err, queryRes) => {
+    const uid = authService.getInfoFromToken(authService.extractToken(req)).uid;
+    const pid = req.params.id;
+
+    notificationService.clearAllNotifications(uid, (err, queryRes) => {
         if (!err) {
             res.send(queryRes)
         } else {
@@ -34,8 +34,7 @@ router.post('/read/all', authService.validate(), async (req, res, next) => {
 })
 
 router.post('/read/:id', authService.validate(), async (req, res, next) => {
-    // const uid = authService.getInfoFromToken(req.headers.token).id
-    const userInfo = await authService.getInfoFromToken(req.headers.authorization.split(' ')[1])
+    const userInfo = authService.getInfoFromToken(authService.extractToken(req));
     const pid = req.params.id
     notificationService.clearNotification(userInfo.id, pid, (err, queryRes) => {
         if (!err) {
