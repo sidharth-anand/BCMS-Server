@@ -34,7 +34,7 @@ async function getAllPostsInCourse(courseId, callback) {
 async function getPostById(postId, callback) {
     try {
         const postDetails = (await db.query("SELECT * FROM bcms_post WHERE pid = $1", [postId])).rows[0]
-        const tags = (await db.query("SELECT t.tid AS tag_id, t.tag AS text FROM bcms_tag t, bcms_post_tag pt WHERE t.tid = pt.tid AND pt.pid = $1;", [postId])).rows
+        const tags = (await db.query("SELECT t.tid, t.tag FROM bcms_tag t, bcms_post_tag pt WHERE t.tid = pt.tid AND pt.pid = $1;", [postId])).rows
 
         callback(null, {
             ...postDetails,

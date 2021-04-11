@@ -113,7 +113,11 @@ function validate(roles) {
   };
 }
 
-async function getInfoFromToken(token) {
+function extractToken(req) {
+  return req.headers["authorization"].split(" ")[1];
+}
+
+function getInfoFromToken(token) {
   return jwt.decode(token);
 }
 
@@ -121,5 +125,6 @@ module.exports = {
   login,
   register,
   validate,
+  extractToken,
   getInfoFromToken,
 };

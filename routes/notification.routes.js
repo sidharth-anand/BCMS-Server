@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const notificationService = require("../services/admin.service");
+const notificationService = require("../services/notification.service");
 const authService = require("../services/auth.service");
 
-router.get('/', authService.validate(), (req, res, next) => {
-    const uid = authService.getInfoFromToken(req.headers.token).uid
-    notificationService.getNotifications(uid, (err, queryRes) => {
+router.get('/', authService.validate(), async (req, res, next) => {
+    const userInfo = authService.getInfoFromToken(authService.extractToken(req));
+    notificationService.getNotifications(userInfo.id, (err, queryRes) => {
         if (!err) {
-            res.send(queryRes)
+            res.send(queryRes.rows)
         } else {
             res.status(500).send({
                 name: err.name,
@@ -17,24 +17,26 @@ router.get('/', authService.validate(), (req, res, next) => {
     })
 })
 
-router.post('/read/:id', authService.validate(), (req, res, next) => {
-    const uid = authService.getInfoFromToken(req.headers.token).uid
-    const pid = req.params.id
-    notificationService.clearNotification(uid, pid, (err, queryRes) => {
-        if (!err) {
-            res.send(queryRes)
-        } else {
-            res.status(500).send({
-                name: err.name,
-                message: err.message
-            })
-        }
-    })
-})
+router.post('/read/all', authService.validate(), async (req, res, next) => {
+    const uid = authService.getInfoFromToken(authService.extractToken(req)).id;
+    const pid = req.params.id;
 
-router.post('/read/all', authService.validate(), (req, res, next) => {
-    const uid = authService.getInfoFromToken(req.headers.token).uid
     notificationService.clearAllNotifications(uid, (err, queryRes) => {
+        if (!err) {
+            res.send(queryRes)
+        } else {
+            res.status(500).send({
+                name: err.name,
+                message: err.message
+            })
+        }
+    })
+})
+
+router.post('/read/:id', authService.validate(), async (req, res, next) => {
+    const userInfo = authService.getInfoFromToken(authService.extractToken(req));
+    const pid = req.params.id
+    notificationService.clearNotification(userInfo.id, pid, (err, queryRes) => {
         if (!err) {
             res.send(queryRes)
         } else {

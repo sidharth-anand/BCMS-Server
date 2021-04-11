@@ -18,8 +18,8 @@ router.get('/', authService.validate(), (req, res, next) => {
 });
 
 router.get("/:courseId/posts", authService.validate(), (req, res) => {
-    const userInfo = authService.getInfoFromToken(req.headers.token)
-    const courseId = req.params.courseId
+    const userInfo = authService.getInfoFromToken(authService.extractToken(req));
+    const courseId = req.params.courseId;
 
     if (userInfo != null) {
         if (postsService.canViewCoursePosts(userInfo, courseId)) {

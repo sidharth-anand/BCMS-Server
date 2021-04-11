@@ -7,7 +7,7 @@ const authService = require('../services/auth.service')
 const appLogger = require("../logging/appLogger");
 
 router.post("/:courseId", authService.validate(), async (req, res) => {
-    const userInfo = authService.getInfoFromToken(req.headers.token)
+    const userInfo = authService.getInfoFromToken(authService.extractToken(req));
 
     const courseId = req.params.courseId
 
@@ -41,7 +41,7 @@ router.post("/:courseId", authService.validate(), async (req, res) => {
 })
 
 
-router.get("/:postId", (req, res, next) => {
+router.get("/:postId", authService.validate(), (req, res, next) => {
     const postID = req.params.postId;
     postsService.getPostById(postID, (err, queryRes) => {
         if(!err) {
@@ -56,7 +56,7 @@ router.get("/:postId", (req, res, next) => {
 });
 
 router.put("/:postId", authService.validate(), (req, res) => {
-    const userInfo = authService.getInfoFromToken(req.headers.token)
+    const userInfo = authService.getInfoFromToken(authService.extractToken(req));
     const postId = req.params.postId
 
     const updatedTitle = req.body.updated_title
@@ -97,7 +97,7 @@ router.put("/:postId", authService.validate(), (req, res) => {
 })
 
 router.delete("/:postId", authService.validate(), (req, res) => {
-    const userInfo = authService.getInfoFromToken(req.headers.token)
+    const userInfo = authService.getInfoFromToken(authService.extractToken(req));
     const postId = req.params.postId
 
     const courseId = postsService.getCourseId(postId)
