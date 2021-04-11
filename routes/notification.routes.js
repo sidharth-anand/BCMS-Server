@@ -18,7 +18,7 @@ router.get('/', authService.validate(), async (req, res, next) => {
 })
 
 router.post('/read/all', authService.validate(), async (req, res, next) => {
-    const uid = authService.getInfoFromToken(authService.extractToken(req)).uid;
+    const uid = authService.getInfoFromToken(authService.extractToken(req)).id;
     const pid = req.params.id;
 
     notificationService.clearAllNotifications(uid, (err, queryRes) => {
