@@ -18,10 +18,17 @@
     "/users/{id}/courses": {
         "$ref": "users/user-courses.json"
     },
-    "/posts/{courseId}": {
-        "$ref": "posts/posts-get-create.json"
-    },
     "/posts/{postId}": {
         "$ref": "posts/posts-update-delete.json"
+    },
+
+    "/notifications": {
+        "$ref": "notifications/notifications.json"
+    },
+    "/notifications/read/{id}": {
+        "$ref": "notifications/notifications-read.json"
+    },
+    "/notifications/read/all": {
+        "$ref": "notifications/notifications-all.json"
     }
 }

@@ -1,0 +1,22 @@
+{
+    "post": {
+        "summary": "Read all notifications of user",
+        "description": "Marks all notifications as read for user",
+        "tags": ["Notifications"],
+        "responses": {
+            "200": {
+                "description": "Success",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "401": {
+                "description": "User is not signed in"
+            }
+        }
+    }
+}

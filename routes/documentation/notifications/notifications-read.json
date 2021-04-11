@@ -1,0 +1,34 @@
+{
+    "post": {
+        "summary": "Read notification",
+        "description": "Mark notification identified by id as read for user identified by auth header",
+        "tags": ["Notifications"],
+        "parameters": [
+            {
+                "name": "id",
+                "in": "path",
+                "description": "id of notification",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "Success",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "401": {
+                "description": "User is not signed in"
+            }
+        }
+    }
+}
