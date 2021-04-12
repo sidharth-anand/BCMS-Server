@@ -24,26 +24,25 @@ router.get("/:id", authService.validate(), (req, res) => {
     });
 });
 
-router.get("/:id/courses", (req, res) => {
-    const userType = req.body.type || "student"
+router.get("/:id/courses/student", (req, res) => {
+    userService.getCoursesOfUser(req.params.id, (err, queryRes) => {
+        if (!err) {
+            res.send(queryRes.rows);
+        } else {
+            res.status(500).send({name: err.name, message: err.message});
+        }
+    });
 
-    if (userType === 'prof') {
-        userService.getCourseTakenByProf(req.params.id, (err, queryRes) => {
-            if (!err) {
-                res.send(queryRes.rows);
-            } else {
-                res.status(500).send({name: err.name, message: err.message});
-            }
-        });
-    } else {
-        userService.getCoursesOfUser(req.params.id, (err, queryRes) => {
-            if (!err) {
-                res.send(queryRes.rows);
-            } else {
-                res.status(500).send({name: err.name, message: err.message});
-            }
-        });
-    }
+});
+
+router.get("/:id/courses/prof", (req, res) => {
+    userService.getCourseTakenByProf(req.params.id, (err, queryRes) => {
+        if (!err) {
+            res.send(queryRes.rows);
+        } else {
+            res.status(500).send({name: err.name, message: err.message});
+        }
+    });
 });
 
 module.exports = router;
