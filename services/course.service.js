@@ -22,7 +22,7 @@ async function updateCourse(courseId, instructorId, updateValues, callback) {
 }
 
 async function getAllCourses(callback) {
-    await db.query('SELECT * FROM bcms_course', [], callback);
+    await db.query("SELECT c.cid, c.name, c.code, c.sem, c.year, c.instructor_id, u.display_name AS instructor_name FROM bcms_user u, bcms_course c WHERE u.uid = c.instructor_id;", [], callback);
     appLogger.info("Retrieved all courses");
 }
 
