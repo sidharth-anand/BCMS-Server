@@ -49,7 +49,7 @@ router.get("/:courseId/posts", authService.validate(), (req, res) => {
 
 router.post('/create', authService.validate(['faculty']), (req, res, next) => {
     const courseDetails = req.body.course;
-    const instructorId = authService.decode(req.headers['authorization'].split(' ')[1]).uid;
+    const instructorId = authService.getInfoFromToken(authService.extractToken(req)).id;
     if (courseDetails != null && instructorId != null) {
         adminService.createCourse(instructorId, courseDetails, (err, queryRes) => {
             if (!err) {
