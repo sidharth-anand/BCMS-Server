@@ -1,0 +1,25 @@
+{
+    "get": {
+        "summary": "Get all notifications of user",
+        "description": "Returns the list of all notification for the user identified by the auth header",
+        "tags": ["Notifications"],
+        "responses": {
+            "200": {
+                "description": "A List of notifications",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "../../../db/schemas/notification.schema.json"
+                            }
+                        }
+                    }
+                }
+            },
+            "401": {
+                "description": "User is not signed in"
+            }
+        }
+    }
+}
