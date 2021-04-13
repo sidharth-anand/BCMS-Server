@@ -1,11 +1,15 @@
 const db = require("../db/db");
 const appLogger = require("../logging/appLogger");
 
-async function createPost(title, body, courseId, callback) {
-    appLogger.info(`Inserting a post titled ${body.substring(10)} in course ${courseId}`)
+async function createPost(title, body, courseId, tags, callback) {
     try {
-        const post = await db.query("INSERT INTO bcms_post (title, body, posted_in) VALUES ($1, $2, $3) RETURNING *;", [title, body, postedIn])
-        callback(null, post.rows[0])
+        const post = await db.query("INSERT INTO bcms_post (title, body, posted_in) VALUES ($1, $2, $3) RETURNING *;", [title, body, courseId])
+
+        for (let i = 0; i < tags.length; i++) {
+            await db.query("INSERT INTO bcms_post_tag VALUES ($1, $2);", [post.rows[0].pid, tags[i]])
+        }
+
+        callback(null, post)
     } catch (err) {
         callback(err, null)
     }
@@ -14,8 +18,18 @@ async function createPost(title, body, courseId, callback) {
 async function getAllPostsInCourse(courseId, callback) {
     appLogger.info(`Getting all posts for course with id ${courseId}`)
     try {
-        const posts = await db.query("SELECT p.pid, p.title, p.body, p.posted_in, c.name, p.created_at, p.updated_at FROM bcms_post p, bcms_course c WHERE posted_in = $1 AND p.posted_in = c.cid;", [courseId])
-        callback(null, posts.rows)
+        const posts = (await db.query("SELECT pid, title, body, created_at, updated_at FROM bcms_post WHERE posted_in = $1;", [courseId])).rows
+
+        let postsWithTags = []
+        for (let i = 0; i < posts.length; i++) {
+            const tags = (await db.query("SELECT t.tid, t.tag FROM bcms_tag t, bcms_post_tag pt WHERE t.tid = pt.tid AND pt.pid = $1;", [posts[i].pid])).rows
+
+            postsWithTags.push({
+                ...posts[i],
+                tags
+            })
+        }
+        callback(null, postsWithTags)
     } catch (err) {
         callback(err, null)
     }
@@ -56,8 +70,8 @@ async function deletePost(postId, callback) {
 
 // Checks whether the user is the instructor of the course by matching the instructor_id of the course and the user's uid
 async function isInstructorOfCourse(userInfo, courseId) {
-    const coursesUnderUid = await db.query("SELECT * FROM bcms_course WHERE instructor_id = $1 AND cid = $2;", [userInfo.uid, courseId])
-    return (coursesUnderUid != null && coursesUnderUid.length > 0)
+    const coursesUnderUid = await db.query("SELECT * FROM bcms_course WHERE instructor_id = $1 AND cid = $2;", [userInfo.id, courseId])
+    return (coursesUnderUid.rows != null && coursesUnderUid.rows.length > 0)
 }
 
 // Gets the courseId from the postId. Returns null if there's no match
@@ -72,13 +86,13 @@ async function getCourseId(postId) {
 
 // Checks whether the user is enrolled in  the course (student), or user is instructor (profs), or user is admin
 async function canViewCoursePosts(userInfo, courseId) {
-    if (userInfo.role == 'admin') {
+    if (userInfo.role === 'admin') {
         return true
-    } else if (userInfo.role == 'prof') {
+    } else if (userInfo.role === 'prof') {
         return isInstructorOfCourse(userInfo, courseId)
     } else {
         const registered = await db.query("SELECT * FROM bcms_registered_in WHERE uid = $1 AND cid = $2;", [userInfo.uid, courseId])
-        return (registered != null && registered.length == 1)
+        return (registered != null && registered.length === 1)
     }
 }
 

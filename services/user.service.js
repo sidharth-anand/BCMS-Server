@@ -32,9 +32,9 @@ async function getCoursesOfUser(id, callback) {
 }
 
 async function getCourseTakenByProf(userId, callback) {
-    await db.query("SELECT cid AS course_id, name, code, year, sem FROM bcms_course WHERE instructor_id = $1", [userId], callback)
+    await db.query("SELECT cid, name, code, year, sem FROM bcms_course WHERE instructor_id = $1", [userId], callback)
 
-    appLogger.info(`Fetches courses the prof with uid ${id} takes`)
+    appLogger.info(`Fetches courses the prof with uid ${userId} takes`)
 }
 
 module.exports = {
