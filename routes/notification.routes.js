@@ -5,9 +5,10 @@ const authService = require("../services/auth.service");
 
 router.get('/', authService.validate(), async (req, res, next) => {
     const userInfo = authService.getInfoFromToken(authService.extractToken(req));
+    console.log(userInfo);
     notificationService.getNotifications(userInfo.id, (err, queryRes) => {
         if (!err) {
-            res.send(queryRes.rows)
+            res.send(queryRes);
         } else {
             res.status(500).send({
                 name: err.name,
