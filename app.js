@@ -56,6 +56,7 @@ const auth = require("./routes/auth.routes");
 const notification = require("./routes/notification.routes");
 const courses = require("./routes/course.routes");
 const posts = require("./routes/posts.routes");
+const tags = require("./routes/tags.routes");
 const search = require("./routes/search.routes");
 const analysis = require("./routes/analysis.routes");
 
@@ -66,6 +67,7 @@ app.use("/auth", auth);
 app.use("/notification", notification);
 app.use("/courses", courses);
 app.use("/posts", posts);
+app.use("/tags", tags);
 app.use("/search", search);
 app.use("/analysis", analysis);
 
