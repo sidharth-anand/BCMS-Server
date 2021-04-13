@@ -44,16 +44,24 @@ async function getPostById(postId, callback) {
             ...postDetails,
             tags
         })
-    } catch(err) {
+    } catch (err) {
         callback(err, null)
     }
 }
 
-async function updatePost(postId, title, body, callback) {
+async function updatePost(postId, title, body, tags, callback) {
     appLogger.info(`Updating post content of post id: ${postId}`)
     try {
-        const updatedPost = await db.query("UPDATE bcms_post SET title = $1, body = $2 WHERE posted_in = $3 RETURNING *;", [title, body, postId])
-        callback(null, updatedPost.rows[0])
+        await db.query("UPDATE bcms_post SET title = $1, body = $2 WHERE posted_in = $3 RETURNING *;", [title, body, postId])
+        await db.query("DELETE FROM bcms_post_tag WHERE pid = $1;", [postId])
+
+        for (let i = 0; i < tags.length; i++) {
+            await db.query("INSERT INTO bcms_post_tag VALUES ($1, $2);", [postId, tags[i]])
+        }
+
+        callback(null, {
+            updated: true
+        })
     } catch (err) {
         callback(err, null)
     }
@@ -62,6 +70,7 @@ async function updatePost(postId, title, body, callback) {
 async function deletePost(postId, callback) {
     appLogger.info(`Deleting post with post id: ${postId}`)
     try {
+        await db.query("DELETE FROM bcms_post_tag WHERE pid = $1;", [postId])
         await db.query("DELETE FROM bcms_post WHERE pid = $1;", [postId], callback)
     } catch (err) {
         callback(err, null)
@@ -77,8 +86,8 @@ async function isInstructorOfCourse(userInfo, courseId) {
 // Gets the courseId from the postId. Returns null if there's no match
 async function getCourseId(postId) {
     const courseId = await db.query("SELECT posted_in AS course_id FROM bcms_post WHERE pid = $1;", [postId])
-    if (courseId != null && courseId.length == 1) {
-        return courseId[0].course_id
+    if (courseId != null && courseId.rows.length === 1) {
+        return courseId.rows[0].course_id
     } else {
         return null
     }
