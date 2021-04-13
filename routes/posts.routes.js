@@ -7,18 +7,27 @@ const authService = require('../services/auth.service')
 const appLogger = require("../logging/appLogger");
 
 router.post("/:courseId", authService.validate(), async (req, res) => {
+    console.log('Hit POST post/:courseId')
+
     const userInfo = authService.getInfoFromToken(authService.extractToken(req));
+    console.log('Got userInfo')
 
     const courseId = req.params.courseId
 
     const title = req.body.title
     const body = req.body.body
+    const tags = req.body.tags // array of tids
 
-    if (userInfo != null && title != null && body != null) {
-        if (postsService.isInstructorOfCourse(userInfo, courseId)) {
-            postsService.createPost(title, body, courseId, (err, queryResult) => {
+    console.log('Got params and body')
+
+    if (userInfo != null && title != null && body != null && tags != null) {
+        console.log('Nothing is null')
+        if (await postsService.isInstructorOfCourse(userInfo, courseId)) {
+            console.log('User is instructor and can post. Creating post')
+            postsService.createPost(title, body, courseId, tags,(err, queryResult) => {
+                console.log(`Insertion done`)
                 if (!err) {
-                    res.send(queryResult)
+                    res.status(205).send()
                 } else {
                     res.status(500).send({
                         name: err.name,
@@ -27,12 +36,14 @@ router.post("/:courseId", authService.validate(), async (req, res) => {
                 }
             })
         } else {
+            console.log('User is not instructor.')
             res.status(403).send({
                 name: "User not instructor of course",
-                message: "You must be the instructor of this course to create a post"
+                message: "You must be the  instructor of this course to create a post"
             })
         }
     } else {
+        console.log('Something was null')
         res.status(400).send({
             name: 'Invalid parameters',
             message: 'The parameters sent are invalid'
@@ -105,7 +116,7 @@ router.delete("/:postId", authService.validate(), (req, res) => {
         if (postsService.isInstructorOfCourse(userInfo, courseId)) {
             postsService.deletePost(postId, (err, queryResult) => {
                 if (!err) {
-                    res.status(205)
+                    res.status(205).send()
                 } else {
                     res.status(500).send({
                         name: err.name,
