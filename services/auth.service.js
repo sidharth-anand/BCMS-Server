@@ -65,7 +65,10 @@ async function login(username, password, callback) {
                 name: user.display_name,
                 email: user.email,
                 bio: user.bio,
-                role: role.rows[0].label,
+                // role: role.rows[0].label,
+                role: role.rows.map((value) => {
+                    return value.label
+                }),
             },
             authConfig.tokenKey,
             {
@@ -102,10 +105,19 @@ function validate(roles) {
         try {
             payload = jwt.verify(token, authConfig.tokenKey);
 
-            if (!roles || roles.includes(payload.role)) {
+            if (!roles) {
                 next();
             } else {
-                return res.status(401).send();
+                let permitted = false;
+                payload.role.forEach(element => {
+                    if (roles.includes(element)) {
+                        permitted = true;
+                    }
+                });
+
+                if (permitted) {
+                    next();
+                }
             }
         } catch (e) {
             return res.status(401).send();

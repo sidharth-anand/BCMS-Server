@@ -52,7 +52,7 @@ async function getPostById(postId, callback) {
 async function updatePost(postId, title, body, tags, callback) {
     appLogger.info(`Updating post content of post id: ${postId}`)
     try {
-        await db.query("UPDATE bcms_post SET title = $1, body = $2 WHERE posted_in = $3 RETURNING *;", [title, body, postId])
+        const postDetails = await db.query("UPDATE bcms_post SET title = $1, body = $2 WHERE pid = $3 RETURNING *;", [title, body, postId])
         await db.query("DELETE FROM bcms_post_tag WHERE pid = $1;", [postId])
 
         for (let i = 0; i < tags.length; i++) {
