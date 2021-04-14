@@ -7,8 +7,8 @@ async function getCourseByID(courseId, callback) {
 }
 
 async function deleteCourse(courseId, instructorId, callback) {
-    await db.query('DELETE FROM bcms_course WHERE cid = $1 AND uid = $2', [courseId, instructorId], callback);
-    appLogger.info(`Deleted course with cid: ${cid}`)
+    await db.query('DELETE FROM bcms_course WHERE cid = $1 AND instructor_id = $2', [courseId, instructorId], callback);
+    appLogger.info(`Deleted course with cid: ${courseId}`)
 }
 
 async function updateCourse(courseId, instructorId, updateValues, callback) {
