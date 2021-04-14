@@ -75,8 +75,9 @@ router.get("/:id", authService.validate(), (req, res, next) => {
 });
 
 router.delete('/:id', authService.validate(['faculty']), (req, res, next) => {
-    const instructorId = authService.decode(req.headers['authorization'].split(' ')[1]).uid;
-    courseService.deleteCourse(id, instructorId, (err, queryRes) => {
+    const instructorId = authService.getInfoFromToken(authService.extractToken(req)).id;
+    const cid = req.params.id;
+    courseService.deleteCourse(cid, instructorId, (err, queryRes) => {
         if (!err) {
             res.send(queryRes)
         } else {
@@ -86,10 +87,11 @@ router.delete('/:id', authService.validate(['faculty']), (req, res, next) => {
 });
 
 router.put('/:id', authService.validate(['faculty']), (req, res, next) => {
-    const instructorId = authService.decode(req.headers['authorization'].split(' ')[1]).uid;
+    const cid = req.params.id;
+    const instructorId = authService.getInfoFromToken(authService.extractToken(req)).id;
     const updateValues = req.body.updateValues;
     if(instructorId && updateValues) {
-        courseService.updateCourse(id, instructorId, updateValues, (err, queryRes) => {
+        courseService.updateCourse(cid, instructorId, updateValues, (err, queryRes) => {
             if (!err) {
                 res.send(queryRes)
             } else {

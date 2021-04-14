@@ -36,7 +36,7 @@
             "description": "Indicates whether is the user's email is verified",
             "example": true
         },
-        "role": {
+        "roles": {
             "type": "string",
             "description": "A string label indicating the user's access rights",
             "example": "student"

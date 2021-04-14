@@ -95,9 +95,9 @@ async function getCourseId(postId) {
 
 // Checks whether the user is enrolled in  the course (student), or user is instructor (profs), or user is admin
 async function canViewCoursePosts(userInfo, courseId) {
-    if (userInfo.role === 'admin') {
+    if (userInfo.roles.includes('admin')) {
         return true
-    } else if (userInfo.role === 'prof') {
+    } else if (userInfo.roles.includes('prof')) {
         return isInstructorOfCourse(userInfo, courseId)
     } else {
         const registered = await db.query("SELECT * FROM bcms_registered_in WHERE uid = $1 AND cid = $2;", [userInfo.uid, courseId])
