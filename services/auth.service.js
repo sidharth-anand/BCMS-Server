@@ -65,7 +65,10 @@ async function login(username, password, callback) {
                 name: user.display_name,
                 email: user.email,
                 bio: user.bio,
-                role: role.rows[0].label,
+                // role: role.rows[0].label,
+                role: role.rows.map((value) => {
+                    return value.label
+                }),
             },
             authConfig.tokenKey,
             {
