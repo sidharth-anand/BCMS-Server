@@ -105,10 +105,19 @@ function validate(roles) {
         try {
             payload = jwt.verify(token, authConfig.tokenKey);
 
-            if (!roles || roles.includes(payload.role)) {
+            if (!roles) {
                 next();
             } else {
-                return res.status(401).send();
+                let permitted = false;
+                payload.role.forEach(element => {
+                    if (roles.includes(element)) {
+                        permitted = true;
+                    }
+                });
+
+                if (permitted) {
+                    next();
+                }
             }
         } catch (e) {
             return res.status(401).send();
