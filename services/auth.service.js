@@ -53,7 +53,7 @@ async function login(username, password, callback) {
         );
         const user = queryRes.rows[0];
 
-        const role = await db.query(
+        const roles = await db.query(
             "SELECT r.label FROM bcms_user_role AS ur, bcms_role AS r WHERE ur.uid = $1 AND r.rid = ur.rid",
             [user.uid]
         );
@@ -66,7 +66,7 @@ async function login(username, password, callback) {
                 email: user.email,
                 bio: user.bio,
                 // role: role.rows[0].label,
-                role: role.rows.map((value) => {
+                roles: roles.rows.map((value) => {
                     return value.label
                 }),
             },
@@ -109,7 +109,7 @@ function validate(roles) {
                 next();
             } else {
                 let permitted = false;
-                payload.role.forEach(element => {
+                payload.roles.forEach(element => {
                     if (roles.includes(element)) {
                         permitted = true;
                     }
