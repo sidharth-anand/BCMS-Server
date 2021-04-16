@@ -29,11 +29,21 @@ router.post('/course/create', authService.validate(['admin']), (req, res, next) 
     }
 })
 
+router.get('/role', authService.validate(['admin']), (req, res, next) => {
+    adminService.getAllRoles((err, queryRes) => {
+        if (!err) {
+            res.send(queryRes.rows)
+        } else {
+            res.status(500).send({name: err.name, message: err.message});
+        }
+    })
+})
+
 router.post('/role/add', authService.validate(['admin']), (req, res, next) => {
     const rid = req.body.rid
     const uid = req.body.uid
     if (rid != null && uid != null) {
-        adminService.addRole(uid, rid, (err, res) => {
+        adminService.addRole(uid, rid, (err, queryRes) => {
             if (!err) {
                 res.send(queryRes)
             } else {
@@ -49,7 +59,7 @@ router.delete('/role', authService.validate(['admin']), (req, res, next) => {
     const rid = req.body.rid
     const uid = req.body.uid
     if (rid != null && uid != null) {
-        adminService.deleteRole(uid, rid, (err, res) => {
+        adminService.deleteRole(uid, rid, (err, queryRes) => {
             if (!err) {
                 res.send(queryRes)
             } else {
