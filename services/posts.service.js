@@ -18,17 +18,54 @@ async function createPost(title, body, courseId, tags, callback) {
 async function getAllPostsInCourse(courseId, callback) {
     appLogger.info(`Getting all posts for course with id ${courseId}`)
     try {
-        const posts = (await db.query("SELECT pid, title, body, created_at, updated_at FROM bcms_post WHERE posted_in = $1;", [courseId])).rows
+        const posts = (await db.query("SELECT p.pid, p.title, p.body, p.created_at, p.updated_at, t.tid, t.tag FROM bcms_post p LEFT OUTER JOIN bcms_post_tag pt ON p.pid = pt.pid  LEFT OUTER JOIN bcms_tag t on pt.tid = t.tid WHERE posted_in = $1 ORDER BY p.pid;", [courseId])).rows
 
         let postsWithTags = []
-        for (let i = 0; i < posts.length; i++) {
-            const tags = (await db.query("SELECT t.tid, t.tag FROM bcms_tag t, bcms_post_tag pt WHERE t.tid = pt.tid AND pt.pid = $1;", [posts[i].pid])).rows
 
-            postsWithTags.push({
-                ...posts[i],
-                tags
-            })
+        let lastPostId = posts[0].pid
+        let tagsForPost = []
+        for (let i = 0; i < posts.length; i++) {
+            let post = posts[i]
+
+            if (lastPostId === post.pid) {
+                if (post.tid != null)
+                    tagsForPost.push({
+                        tid: post.tid,
+                        tag: post.tag
+                    })
+            } else {
+                const prevPost = posts[i - 1]
+
+                postsWithTags.push({
+                    pid: prevPost.pid,
+                    title: prevPost.title,
+                    body: prevPost.body,
+                    created_at: prevPost.created_at,
+                    updated_at: prevPost.updated_at,
+                    tags: tagsForPost
+                })
+
+                tagsForPost = []
+                if (post.tid != null)
+                    tagsForPost.push({
+                        tid: post.tid,
+                        tag: post.tag
+                    })
+            }
+
+            lastPostId = post.pid
         }
+
+        const lastPost = posts[posts.length - 1]
+        postsWithTags.push({
+            pid: lastPost.pid,
+            title: lastPost.title,
+            body: lastPost.body,
+            created_at: lastPost.created_at,
+            updated_at: lastPost.updated_at,
+            tags: tagsForPost
+        })
+
         callback(null, postsWithTags)
     } catch (err) {
         callback(err, null)
