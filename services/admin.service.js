@@ -23,9 +23,15 @@ async function deleteCourse(cid, callback, callback) {
     appLogger.info(`Deleted course with cid: ${cid}`)
 }
 
+async function getAllRoles(callback) {
+    await db.query('SELECT * FROM bcms_role', callback)
+    appLogger.info(`Requested all roles`)
+}
+
 module.exports = {
     addRole,
     deleteRole,
+    getAllRoles,
     createCourse,
     deleteCourse
 }
