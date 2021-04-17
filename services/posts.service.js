@@ -18,18 +18,8 @@ async function createPost(title, body, courseId, tags, callback) {
 async function getAllPostsInCourse(courseId, callback) {
     appLogger.info(`Getting all posts for course with id ${courseId}`)
     try {
-        const posts = (await db.query("SELECT pid, title, body, created_at, updated_at FROM bcms_post WHERE posted_in = $1;", [courseId])).rows
-
-        let postsWithTags = []
-        for (let i = 0; i < posts.length; i++) {
-            const tags = (await db.query("SELECT t.tid, t.tag FROM bcms_tag t, bcms_post_tag pt WHERE t.tid = pt.tid AND pt.pid = $1;", [posts[i].pid])).rows
-
-            postsWithTags.push({
-                ...posts[i],
-                tags
-            })
-        }
-        callback(null, postsWithTags)
+        const posts = await db.query("SELECT p.pid, p.title, p.body, p.created_at, p.updated_at, array_agg(json_build_object('tid', t.tid, 'tag', t.tag)) FILTER ( WHERE t.tid IS NOT NULL) AS tags FROM bcms_post p LEFT OUTER JOIN bcms_post_tag pt ON p.pid = pt.pid LEFT OUTER JOIN bcms_tag t on pt.tid = t.tid WHERE posted_in = $1 GROUP BY p.pid, p.title, p.body, p.created_at, p.updated_at ORDER BY p.pid;", [courseId])
+        callback(null, posts.rows)
     } catch (err) {
         callback(err, null)
     }
