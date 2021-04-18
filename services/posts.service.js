@@ -3,14 +3,17 @@ const appLogger = require("../logging/appLogger");
 
 async function createPost(title, body, courseId, tags, callback) {
     try {
+        await db.query('BEGIN')
         const post = await db.query("INSERT INTO bcms_post (title, body, posted_in) VALUES ($1, $2, $3) RETURNING *;", [title, body, courseId])
 
         for (let i = 0; i < tags.length; i++) {
             await db.query("INSERT INTO bcms_post_tag VALUES ($1, $2);", [post.rows[0].pid, tags[i]])
         }
+        await db.query('COMMIT')
 
         callback(null, post)
     } catch (err) {
+        await db.query('ROLLBACK')
         callback(err, null)
     }
 }
@@ -42,17 +45,22 @@ async function getPostById(postId, callback) {
 async function updatePost(postId, title, body, tags, callback) {
     appLogger.info(`Updating post content of post id: ${postId}`)
     try {
-        const postDetails = await db.query("UPDATE bcms_post SET title = $1, body = $2 WHERE pid = $3 RETURNING *;", [title, body, postId])
+        await db.query('BEGIN')
+
+        await db.query("UPDATE bcms_post SET title = $1, body = $2 WHERE pid = $3 RETURNING *;", [title, body, postId])
         await db.query("DELETE FROM bcms_post_tag WHERE pid = $1;", [postId])
 
         for (let i = 0; i < tags.length; i++) {
             await db.query("INSERT INTO bcms_post_tag VALUES ($1, $2);", [postId, tags[i]])
         }
 
+        await db.query('COMMIT')
+
         callback(null, {
             updated: true
         })
     } catch (err) {
+        await db.query('ROLLBACK')
         callback(err, null)
     }
 }
@@ -60,9 +68,12 @@ async function updatePost(postId, title, body, tags, callback) {
 async function deletePost(postId, callback) {
     appLogger.info(`Deleting post with post id: ${postId}`)
     try {
+        await db.query('BEGIN')
         await db.query("DELETE FROM bcms_post_tag WHERE pid = $1;", [postId])
         await db.query("DELETE FROM bcms_post WHERE pid = $1;", [postId], callback)
+        await db.query('COMMIT')
     } catch (err) {
+        await db.query('ROLLBACK')
         callback(err, null)
     }
 }
