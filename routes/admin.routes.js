@@ -55,7 +55,7 @@ router.post('/role/add', authService.validate(['admin']), (req, res, next) => {
     }
 })
 
-router.delete('/role', authService.validate(['admin']), (req, res, next) => {
+router.post('/role/delete', authService.validate(['admin']), (req, res, next) => {
     const rid = req.body.rid
     const uid = req.body.uid
     if (rid != null && uid != null) {

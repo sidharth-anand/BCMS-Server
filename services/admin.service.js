@@ -24,8 +24,8 @@ async function deleteCourse(cid, callback, callback) {
 }
 
 async function getAllRoles(callback) {
-    await db.query('SELECT * FROM bcms_role', callback)
-    appLogger.info(`Requested all roles`)
+    await db.query('SELECT * FROM bcms_role', [], callback);
+    appLogger.info(`Requested all roles`);
 }
 
 module.exports = {
