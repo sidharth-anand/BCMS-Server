@@ -1,3 +1,46 @@
 {
-    
+    "serverConfig": {
+        "behindHttps": true
+    },
+    "dbConfig": {
+        "ssl": true
+    },
+    "logConfig": {
+        "httpLog": {
+            "fname": "httpRequest.log",
+            "rfsOptions": {
+                "size": "10M",
+                "interval": "1d",
+                "compress": "gzip"
+            },
+            "format": ":remote-addr - :remote-user :date[clf] ':method :url HTTP/:http-version' :status :res[content-length] :response-time ':referrer' ':user-agent'"
+        },
+        "appLog": {
+            "streamConfig": {
+                "type": "rotating-file",
+                "fname": "app.log",
+                "period": "1d",
+                "count": 7,
+                "level": "prod"
+            }
+        },
+        "dbLog": {
+            "streamConfig": {
+                "type": "rotating-file",
+                "fname": "db.log",
+                "period": "1d",
+                "count": 7,
+                "level": "prod"
+            }
+        }
+    },
+    "authConfig": {
+        "tokenKey": "PandaSUXbalz",
+        "tokenAlgorithm": "HS256"
+    },
+    "corsConfig": {
+        "allow": [
+            "*"
+        ]
+    }
 }

@@ -7,6 +7,10 @@ const verboseDebug = require("debug")("BCMS:db-verbose");
 
 const fs = require('fs');
 
+if(process.env.NODE_ENV != 'dev') {
+    dbConfig.connectionString = process.env.DATABASE_URL;
+}
+
 const pool = new Pool(dbConfig);
 
 async function query(text, params, callback) {
