@@ -31,3 +31,7 @@ BEGIN
         WHEN duplicate_object THEN RAISE NOTICE 'Foreign Key FK_post_course already exists';
     END;
 END $$;
+
+-- Creating index on uid
+CREATE INDEX IF NOT EXISTS idx_post_posted_in
+ON bcms_post (posted_in);

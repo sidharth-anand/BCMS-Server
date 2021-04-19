@@ -31,3 +31,7 @@ BEGIN
         WHEN duplicate_object THEN RAISE NOTICE 'Foreign Key FK_user_role_user already exists';
     END;
 END $$;
+
+-- Creating index on uid
+CREATE INDEX IF NOT EXISTS idx_user_role_uid
+ON bcms_user_role (uid);

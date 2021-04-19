@@ -33,3 +33,7 @@ BEGIN
         WHEN duplicate_object THEN RAISE NOTICE 'Foreign Key FK_post_tag_tag already exists';
     END;
 END $$;
+
+-- Creating index on pid
+CREATE INDEX IF NOT EXISTS idx_post_tag_pid
+ON bcms_post_tag (pid);
