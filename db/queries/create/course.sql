@@ -7,6 +7,10 @@ CREATE TABLE IF NOT EXISTS bcms_course (
     instructor_id INTEGER NOT NULL
 );
 
+-- Creating index on instructor_id
+CREATE INDEX IF NOT EXISTS idx_course_instructor_id
+ON bcms_course (instructor_id);
+
 -- Instructor Constraint
 DO $$
 BEGIN
