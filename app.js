@@ -50,7 +50,9 @@ const initDB = require('./db/init');
 const createData = require("./db/create");
 const createFTS = require("./db/fts");
 
-initDB.init();
+if(process.env.INIT_DB) {
+  initDB.init();
+}
 
 if(process.env.INIT_DATA) {
   createData.create();
