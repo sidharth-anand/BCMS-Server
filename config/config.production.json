@@ -23,7 +23,7 @@
                 "fname": "app.log",
                 "period": "1d",
                 "count": 7,
-                "level": "error"
+                "level": "info"
             }
         },
         "dbLog": {
@@ -32,7 +32,7 @@
                 "fname": "db.log",
                 "period": "1d",
                 "count": 7,
-                "level": "error"
+                "level": "info"
             }
         }
     },
