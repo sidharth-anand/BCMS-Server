@@ -3,7 +3,9 @@
         "behindHttps": true
     },
     "dbConfig": {
-        "ssl": true
+        "ssl": {
+            "rejectUnauthorized": false
+        }
     },
     "logConfig": {
         "httpLog": {
