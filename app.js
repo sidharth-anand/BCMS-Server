@@ -47,7 +47,15 @@ app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 
 const initDB = require('./db/init');
+const createData = require("./db/create");
+const createFTS = require("./db/fts");
+
 initDB.init();
+
+if(process.env.INIT_DATA) {
+  createData.create();
+  createFTS.fts();
+}
 
 const test = require("./routes/test.routes");
 const users = require("./routes/user.routes");
