@@ -17,32 +17,36 @@ async function register(user, callback) {
 
     const securePassword = await bcrypt.hash(user.password, 10);
 
-    await db.query(
-        "INSERT INTO bcms_user(username, password, email, display_name, phone_no, verified) VALUES($1, $2, $3, $4, $5, $6)",
-        [
+    try {
+        await db.query(
+            "INSERT INTO bcms_user(username, password, email, display_name, phone_no, verified) VALUES($1, $2, $3, $4, $5, $6)",
+            [
+                user.username,
+                securePassword,
+                user.email,
+                user.name,
+                user.phone_no,
+                false,
+            ],
+            callback
+        );
+    
+        let res = await db.query("SELECT uid from bcms_user WHERE username = $1", [
             user.username,
-            securePassword,
-            user.email,
-            user.name,
-            user.phone_no,
-            false,
-        ],
-        callback
-    );
+        ]);
+        const uid = res.rows[0].uid;
+    
+        res = await db.query("SELECT rid FROM bcms_role WHERE label = $1", [
+            "student",
+        ]);
+        const rid = res.rows[0].rid;
+    
+        db.query("INSERT INTO bcms_user_role(uid, rid) values($1, $2);", [uid, rid]);
 
-    let res = await db.query("SELECT uid from bcms_user WHERE username = $1", [
-        user.username,
-    ]);
-    const uid = res.rows[0].uid;
-
-    res = await db.query("SELECT rid FROM bcms_role WHERE label = $1", [
-        "student",
-    ]);
-    const rid = res.rows[0].rid;
-
-    db.query("INSERT INTO bcms_user_role(uid, rid) values($1, $2);", [uid, rid]);
-
-    appLogger.info("Registered new user: " + user.username);
+        appLogger.info("Registered new user: " + user.username);
+    } catch(err) {
+        
+    }
 }
 
 async function login(username, password, callback) {

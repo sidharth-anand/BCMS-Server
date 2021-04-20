@@ -17,26 +17,30 @@ async function query(text, params, callback) {
     const start = Date.now();
 
     const query = pool.query(text, params);
-    query
-    .then(res => {
-        const duration = Date.now() - start;
-        dbLogger.info('executed query', { text, duration, rows: res.rowCount });
-        debug('executed query: ' + (text.includes('\n') ? text.split('\n')[0].slice(0, 35) : text + " " + duration)); 
-        verboseDebug('exectued query: ' + text + " " + duration);
-
-        if(callback) {
-            callback(null, res);
-        }
-    })
-    .catch(err => {
-        const duration = Date.now() - start;
-        dbLogger.error('error executing query', { text, duration });
-        debug("error executing query: " + text + " " + duration);
-
-        if(callback) {
-            callback(err, null);
-        }
-    });
+    try {
+        query
+        .then(res => {
+            const duration = Date.now() - start;
+            dbLogger.info('executed query', { text, duration, rows: res.rowCount });
+            debug('executed query: ' + (text.includes('\n') ? text.split('\n')[0].slice(0, 35) : text + " " + duration)); 
+            verboseDebug('exectued query: ' + text + " " + duration);
+    
+            if(callback) {
+                callback(null, res);
+            }
+        })
+        .catch(err => {
+            const duration = Date.now() - start;
+            dbLogger.error('error executing query', { text, duration });
+            debug("error executing query: " + text + " " + duration);
+    
+            if(callback) {
+                callback(err, null);
+            }
+        });
+    } catch(e) {
+        callback(e, null);
+    }
 
     return query;
 };
