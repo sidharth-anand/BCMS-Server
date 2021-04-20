@@ -5,6 +5,8 @@ const db = require("../db/db");
 
 const appLogger = require("../logging/appLogger");
 
+const debug = require("debug")("BCMS:prod-log");
+
 const authConfig = require("../config/config.dev.json").authConfig;
 
 async function register(user, callback) {
@@ -45,7 +47,7 @@ async function register(user, callback) {
 
         appLogger.info("Registered new user: " + user.username);
     } catch(err) {
-        
+        debug("Error in auth register: " + err);
     }
 }
 
