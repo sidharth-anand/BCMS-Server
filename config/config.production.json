@@ -42,7 +42,7 @@
     },
     "corsConfig": {
         "allow": [
-            "*"
+            "https://bcms.netlify.app/", "https://bcms.vercel.app/", "http://bcms.netlify.app/"
         ]
     }
 }
